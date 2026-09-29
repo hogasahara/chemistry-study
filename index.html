@@ -123,11 +123,17 @@
   fetch("drills/drills.json")
     .then(function (r) { return r.json(); })
     .then(function (drills) {
-      drills.sort(function (a, b) { return a.date === b.date ? b.number - a.number : (a.date < b.date ? 1 : -1); });
+      // 並び順: drills.json の order(プリントの学習順)。order が無いものは番号順で後ろに
+      drills.sort(function (a, b) { return (a.order || 999) - (b.order || 999) || a.number - b.number; });
       if (task.link === "DRILL" && drills.length) {
+        // 今日のドリル: 学習順で最初の「まだWebでやっていない」ドリル。全部やったら、最後にやったのが一番古いもの
+        var last = {};
+        loadRecords().forEach(function (r) { if (r.kind === "drill" && r.id) last[r.id] = Math.max(last[r.id] || 0, r.ts); });
+        var next = drills.filter(function (d) { return !last[d.id]; })[0] ||
+          drills.slice().sort(function (a, b) { return last[a.id] - last[b.id]; })[0];
         btn.hidden = false;
         btn.textContent = task.label;
-        btn.href = "drill.html?id=" + drills[0].id;
+        btn.href = "drill.html?id=" + next.id;
       }
 
       var list = document.getElementById("drill-list");
