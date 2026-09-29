@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用語・化学式カード</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main>
+  <p class="site-name"><a href="./">← トップへ</a></p>
+  <h1>🧪 用語・化学式カード</h1>
+
+  <!-- モード選択 -->
+  <section id="setup" class="panel" hidden>
+    <p class="muted small" style="margin-top:0">これまでのドリルに出た用語・化学式から4択で出題。<strong>用語→意味 / 意味→用語</strong>の2形式がランダムに混ざります。<br>
+    間違えたカードはすぐ「要復習」に入り、正解するたびに 1→3→7→14→30日後 と再出題の間隔が延びていきます(忘れた頃にまた出ます)。</p>
+    <p id="pool-info" class="small"></p>
+    <p><button class="btn btn-primary btn-big" id="btn-normal">▶ テスト開始(10問)</button></p>
+    <p><button class="btn btn-big" id="btn-miss">🔁 要復習のカードだけ(<span id="miss-count">0</span>枚)</button></p>
+    <p class="muted small">「要復習」= 間違えたカード+復習期限が来たカード。通常テストにも優先的に混ざります。</p>
+  </section>
+
+  <!-- 出題 -->
+  <section id="quiz" hidden>
+    <div class="timerbar"><span id="quiz-kind">用語カード</span><span class="time" id="progress"></span></div>
+    <div class="panel">
+      <p class="q-text" id="word" style="text-align:center"></p>
+      <div class="choices" id="choices"></div>
+      <div class="verdict" id="verdict" hidden></div>
+      <p style="margin-bottom:0"><button class="btn btn-primary btn-big" id="btn-next" hidden>次へ</button></p>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="quiz-result" hidden>
+    <div class="panel score-hero">
+      <div class="big" id="vocab-score">-</div>
+      <div class="unit">正解</div>
+      <p class="muted small">✅ 結果は<a href="log.html">記録ページ</a>に保存されました</p>
+    </div>
+    <div class="panel" id="wrong-panel" hidden>
+      <h2 style="margin-top:0">今回まちがえたカード</h2>
+      <div class="table-wrap"><table class="plain" id="wrong-table"></table></div>
+      <p class="muted small">→ 「要復習」に入りました。下のボタンで今すぐやり直すのが一番効きます。</p>
+    </div>
+    <p><button class="btn btn-primary btn-big" id="btn-again">もう一度(10問)</button></p>
+    <p><button class="btn btn-big" id="btn-again-miss">要復習だけテスト</button></p>
+    <p><a class="btn btn-big" href="./">トップへ戻る</a></p>
+  </section>
+
+  <p id="load-error" class="panel" hidden>カードのデータを読み込めませんでした。<a href="./">トップへ戻る</a></p>
+</main>
+
+<script src="js/report.js"></script>
+<script>
+(function () {
+  var REC_KEY = "ch_records_v1";
+  var SRS_KEY = "ch_cards_srs_v1";
+  var INTERVALS = [1, 3, 7, 14, 30]; // box n 正解後、n+1個目の日数後に再出題
+
+  var pool = {};       // 表(用語・化学式) -> 裏(意味・物質名)。drill.json の terms から集める
+  var questions = [];
+  var qi = 0, correctCount = 0, answered = false, mode = "normal";
+  var wrongThisRun = [];
+
+  function el(id) { return document.getElementById(id); }
+  // 化学式の表記: <sub> <sup> <br> だけを通し、それ以外はエスケープする(drill.html と同じ)
+  function rich(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+      .replace(/&lt;(\/?)(sub|sup)&gt;/g, "<$1$2>")
+      .replace(/&lt;br&gt;/g, "<br>");
+  }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function todayStr(offsetDays) {
+    var d = new Date();
+    if (offsetDays) d.setDate(d.getDate() + offsetDays);
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+
+  // ---- SRS(間隔反復)ストア ----
+  function loadSrs() {
+    try { return JSON.parse(localStorage.getItem(SRS_KEY) || "{}"); } catch (e) { return {}; }
+  }
+  function storeSrs(s) {
+    try { localStorage.setItem(SRS_KEY, JSON.stringify(s)); } catch (e) {}
+  }
+  function dueWords() {
+    var srs = loadSrs(), today = todayStr();
+    return Object.keys(srs).filter(function (w) { return pool[w] && srs[w].due <= today; });
+  }
+  function markResult(word, ok) {
+    var srs = loadSrs();
+    var entry = srs[word] || { box: 0, due: todayStr() };
+    if (ok) {
+      // 今のboxに応じた間隔で次回出題(box0で正解→1日後、box1→3日後、…最大30日後)
+      var iv = INTERVALS[Math.min(entry.box, INTERVALS.length - 1)];
+      entry.box = Math.min(entry.box + 1, INTERVALS.length - 1);
+      entry.due = todayStr(iv);
+    } else {
+      entry.box = 0;
+      entry.due = todayStr(); // 即「要復習」入り(その場で再テストできる)
+    }
+    srs[word] = entry;
+    storeSrs(srs);
+  }
+
+  // ---- データ読み込み ----
+  fetch("drills/drills.json")
+    .then(function (r) { return r.json(); })
+    .then(function (list) {
+      return Promise.all(list.map(function (d) {
+        return fetch("drills/" + d.id + "/drill.json")
+          .then(function (r) { return r.json(); })
+          .catch(function () { return null; });
+      }));
+    })
+    .then(function (ds) {
+      ds.forEach(function (d) {
+        if (!d || !d.terms) return;
+        d.terms.forEach(function (t) { pool[t[0]] = t[1]; });
+      });
+      var n = Object.keys(pool).length;
+      if (n < 4) throw new Error("pool too small");
+      el("pool-info").textContent = "出題プール: " + n + "枚(ドリルが増えると自動で増えます)";
+      updateMissUI();
+      el("setup").hidden = false;
+    })
+    .catch(function () { el("load-error").hidden = false; });
+
+  function updateMissUI() {
+    var due = dueWords();
+    el("miss-count").textContent = due.length;
+    el("btn-miss").disabled = due.length === 0;
+    el("btn-again-miss").hidden = due.length === 0;
+  }
+
+  // ---- 出題の組み立て ----
+  function pickWords(m) {
+    var due = shuffle(dueWords());
+    if (m === "miss") return due.slice(0, 10);
+    var srs = loadSrs();
+    var rest = shuffle(Object.keys(pool).filter(function (w) { return due.indexOf(w) < 0; }));
+    // 未学習(SRS未登録)のカードを先に、次に学習済みのカード
+    rest.sort(function (a, b) { return (srs[a] ? 1 : 0) - (srs[b] ? 1 : 0); });
+    return due.slice(0, 5).concat(rest).slice(0, 10);
+  }
+
+  function makeQuestion(w) {
+    var kind = Math.random() < 0.5 ? "front" : "back";
+    var others = shuffle(Object.keys(pool).filter(function (k) {
+      return k !== w && pool[k] !== pool[w];
+    })).slice(0, 3);
+    var q = { word: w, kind: kind };
+    if (kind === "front") {
+      q.prompt = w;
+      q.label = "意味は?";
+      q.choices = shuffle([w].concat(others)).map(function (k) { return { text: pool[k], correct: k === w }; });
+    } else {
+      q.prompt = pool[w];
+      q.label = "用語・化学式は?";
+      q.choices = shuffle([w].concat(others)).map(function (k) { return { text: k, correct: k === w }; });
+    }
+    return q;
+  }
+
+  function start(m) {
+    mode = m;
+    var words = pickWords(m);
+    if (!words.length) return;
+    questions = words.map(makeQuestion);
+    qi = 0; correctCount = 0; wrongThisRun = [];
+    el("setup").hidden = true;
+    el("quiz-result").hidden = true;
+    el("quiz").hidden = false;
+    el("quiz-kind").textContent = m === "miss" ? "要復習カード" : "用語カード";
+    window.scrollTo(0, 0);
+    renderQ();
+  }
+
+  function renderQ() {
+    answered = false;
+    var q = questions[qi];
+    el("progress").textContent = (qi + 1) + " / " + questions.length;
+    var wordEl = el("word");
+    wordEl.innerHTML = rich(q.prompt);
+    wordEl.style.fontSize = q.kind === "back" ? "1.1rem" : "1.5rem";
+    el("verdict").hidden = true;
+    el("btn-next").hidden = true;
+    var box = el("choices");
+    box.innerHTML = "";
+    var label = document.createElement("p");
+    label.className = "muted small";
+    label.style.margin = "0 0 6px";
+    label.textContent = q.label;
+    box.appendChild(label);
+    q.choices.forEach(function (c, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "choice";
+      b.innerHTML = rich(c.text);
+      b.dataset.i = i;
+      box.appendChild(b);
+    });
+  }
+
+  el("choices").addEventListener("click", function (e) {
+    var btn = e.target.closest(".choice");
+    if (!btn || answered) return;
+    answered = true;
+    var q = questions[qi];
+    var picked = q.choices[+btn.dataset.i];
+    var buttons = el("choices").querySelectorAll(".choice");
+    q.choices.forEach(function (c, i) {
+      if (c.correct) buttons[i].classList.add("correct");
+      else if (c === picked) buttons[i].classList.add("wrong");
+    });
+    var v = el("verdict");
+    if (picked.correct) {
+      correctCount++;
+      v.className = "verdict ok";
+      v.innerHTML = "○ 正解! " + rich(q.word) + " = " + rich(pool[q.word]);
+    } else {
+      wrongThisRun.push(q.word);
+      v.className = "verdict ng";
+      v.innerHTML = "✗ 正解: " + rich(q.word) + " = " + rich(pool[q.word]);
+    }
+    markResult(q.word, picked.correct);
+    v.hidden = false;
+    var next = el("btn-next");
+    next.textContent = qi + 1 < questions.length ? "次へ" : "結果を見る";
+    next.hidden = false;
+  });
+
+  el("btn-next").addEventListener("click", function () {
+    if (qi + 1 < questions.length) { qi++; renderQ(); }
+    else finish();
+  });
+
+  function finish() {
+    el("quiz").hidden = true;
+    el("quiz-result").hidden = false;
+    window.scrollTo(0, 0);
+    el("vocab-score").textContent = correctCount + " / " + questions.length;
+    var wp = el("wrong-panel");
+    if (wrongThisRun.length) {
+      wp.hidden = false;
+      var t = el("wrong-table");
+      t.innerHTML = "";
+      wrongThisRun.forEach(function (w) {
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td><strong>" + rich(w) + "</strong></td><td>" + rich(pool[w]) + "</td>";
+        t.appendChild(tr);
+      });
+    } else {
+      wp.hidden = true;
+    }
+    updateMissUI();
+    var recName = mode === "miss" ? "用語カード(要復習)" : "用語カード";
+    try {
+      var records = JSON.parse(localStorage.getItem(REC_KEY) || "[]");
+      var n = new Date();
+      records.push({
+        ts: n.getTime(),
+        date: todayStr(),
+        kind: "cards",
+        name: recName,
+        correct: correctCount,
+        total: questions.length
+      });
+      localStorage.setItem(REC_KEY, JSON.stringify(records));
+    } catch (e) {}
+
+    // 学習状況の記録(クイズ完了ごとに1回)
+    if (window.CHReport) {
+      CHReport.reportDrillDone({ name: recName, correct: correctCount, total: questions.length });
+    }
+  }
+
+  el("btn-normal").addEventListener("click", function () { start("normal"); });
+  el("btn-miss").addEventListener("click", function () { start("miss"); });
+  el("btn-again").addEventListener("click", function () { start("normal"); });
+  el("btn-again-miss").addEventListener("click", function () { start("miss"); });
+})();
+</script>
+</body>
+</html>

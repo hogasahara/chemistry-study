@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>確認ドリル</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main>
+  <p class="site-name"><a href="./">← トップへ</a></p>
+  <h1 id="drill-title">読み込み中…</h1>
+  <p class="muted small" id="drill-meta"></p>
+
+  <!-- Step 1: 用語チェック -->
+  <section id="step-terms" class="panel" hidden>
+    <h2 style="margin-top:0">Step 1: 用語チェック(2分)</h2>
+    <p class="muted small">プリントで出てきた用語・化学式。解く前にざっと確認(ここで覚え込まなくてOK)。</p>
+    <div class="table-wrap"><table class="plain" id="terms-table"></table></div>
+    <p style="margin-top:16px"><button class="btn btn-primary btn-big" id="btn-start">▶ 解き始める(タイマー開始)</button></p>
+    <p class="muted small">計算は紙とペンで。電卓は使わない(テストと同じ条件で)。</p>
+  </section>
+
+  <!-- Step 2: 設問(タイム測定) -->
+  <section id="step-questions" hidden>
+    <div class="timerbar">
+      <span>✏️ 解答中</span>
+      <span class="time" id="timer">0:00</span>
+    </div>
+    <div class="panel">
+      <div id="questions"></div>
+      <p style="margin-top:16px"><button class="btn btn-primary btn-big" id="btn-grade">採点する(タイマー停止)</button></p>
+      <p class="muted small" id="grade-hint" hidden></p>
+    </div>
+  </section>
+
+  <!-- Step 3: 結果 -->
+  <section id="step-result" hidden>
+    <div class="panel score-hero">
+      <div class="score-row">
+        <div class="box"><div class="big" id="result-score">-</div><div class="unit">正答</div></div>
+        <div class="box"><div class="big" id="result-time">-</div><div class="unit">所要時間</div></div>
+      </div>
+      <p class="muted small" id="result-note"></p>
+      <p class="muted small">✅ この結果は自動で<a href="log.html">記録ページ</a>に保存されました</p>
+    </div>
+    <div class="panel" id="miss-panel" hidden>
+      <h2 style="margin-top:0">今回のミスの種類</h2>
+      <ul class="miss-list" id="miss-list"></ul>
+    </div>
+    <div class="panel">
+      <h2 style="margin-top:0">答え合わせ</h2>
+      <div id="feedback"></div>
+    </div>
+    <div class="panel" id="points-panel" hidden>
+      <h2 style="margin-top:0">ここを押さえる</h2>
+      <ul id="points" class="small"></ul>
+    </div>
+    <p><a class="btn btn-primary btn-big" href="cards.html">🧪 用語カードで復習</a></p>
+    <p><a class="btn btn-big" href="./">トップへ戻る</a></p>
+  </section>
+
+  <p id="load-error" class="panel" hidden>ドリルを読み込めませんでした。<a href="./">トップへ戻る</a></p>
+</main>
+
+<script src="js/report.js"></script>
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get("id") || "";
+  if (!/^[a-z0-9-]+$/.test(id)) { showError(); return; }
+
+  var drill = null;
+  var startAt = 0, seconds = 0, timerHandle = null;
+  var answers = [];
+  var saved = false;
+
+  var CAT_LABELS = { term: "用語", calc: "計算", fill: "穴埋め", table: "グラフ・表", combo: "組み合わせ", equation: "反応式" };
+
+  fetch("drills/" + id + "/drill.json")
+    .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+    .then(init)
+    .catch(showError);
+
+  function showError() {
+    document.getElementById("drill-title").textContent = "エラー";
+    document.getElementById("load-error").hidden = false;
+  }
+
+  function el(idName) { return document.getElementById(idName); }
+
+  // 化学式の表記: drill.json では <sub> <sup> <br> だけを使う(CLAUDE.md)。それ以外はエスケープする
+  function rich(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+      .replace(/&lt;(\/?)(sub|sup)&gt;/g, "<$1$2>")
+      .replace(/&lt;br&gt;/g, "<br>");
+  }
+  function fmtTime(s) { return Math.floor(s / 60) + "分" + (s % 60) + "秒"; }
+
+  function init(d) {
+    drill = d;
+    document.title = "確認ドリル #" + d.number;
+    el("drill-title").textContent = "確認ドリル #" + d.number + " — " + d.title;
+    el("drill-meta").textContent = d.unit + " ・ 設問 " + d.questions.length + "問 ・ 目安" + (d.targetMinutes || 10) + "分" +
+      (d.source && d.source.label ? " ・ 出典: " + d.source.label : "");
+
+    var tt = el("terms-table");
+    d.terms.forEach(function (t) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td><strong>" + rich(t[0]) + "</strong></td><td>" + rich(t[1]) + "</td>";
+      tt.appendChild(tr);
+    });
+
+    answers = d.questions.map(function () { return null; });
+    renderQuestions();
+
+    el("step-terms").hidden = false;
+    el("btn-start").addEventListener("click", start);
+    el("btn-grade").addEventListener("click", grade);
+  }
+
+  function start() {
+    el("step-terms").hidden = true;
+    el("step-questions").hidden = false;
+    window.scrollTo(0, 0);
+    startAt = Date.now();
+    timerHandle = setInterval(function () {
+      var s = Math.floor((Date.now() - startAt) / 1000);
+      el("timer").textContent = Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2);
+    }, 250);
+  }
+
+  function renderQuestions() {
+    var wrap = el("questions");
+    drill.questions.forEach(function (q, qi) {
+      var div = document.createElement("div");
+      div.className = "q";
+      var choices = q.type === "tf" ? ["正しい", "誤り"] : q.choices;
+      var buttons = choices.map(function (c, ci) {
+        var label = q.type === "tf" ? c : "(" + "abcd"[ci] + ") " + rich(c);
+        return '<button type="button" class="choice" data-q="' + qi + '" data-c="' + ci + '">' + label + "</button>";
+      }).join("");
+      var cat = q.type === "tf" ? '<span class="qcat">【正誤】</span> '
+        : (q.cat && CAT_LABELS[q.cat] ? '<span class="qcat">【' + CAT_LABELS[q.cat] + "】</span> " : "");
+      var table = "";
+      if (q.table && q.table.length) {
+        table = '<div class="table-wrap"><table class="plain">' + q.table.map(function (row, ri) {
+          var tag = ri === 0 ? "th" : "td";
+          return "<tr>" + row.map(function (c) { return "<" + tag + ">" + rich(c) + "</" + tag + ">"; }).join("") + "</tr>";
+        }).join("") + "</table></div>";
+      }
+      div.innerHTML = '<p class="q-text">Q' + (qi + 1) + ". " + cat + rich(q.q) + "</p>" + table +
+        '<div class="choices">' + buttons + "</div>" +
+        '<div class="verdict" hidden></div><p class="trap" hidden></p><p class="explain" hidden></p>';
+      wrap.appendChild(div);
+    });
+    wrap.addEventListener("click", function (e) {
+      var btn = e.target.closest(".choice");
+      if (!btn || saved) return;
+      answers[+btn.dataset.q] = +btn.dataset.c;
+      btn.closest(".q").querySelectorAll(".choice").forEach(function (b) { b.classList.remove("selected"); });
+      btn.classList.add("selected");
+    });
+  }
+
+  function grade() {
+    var unanswered = [];
+    answers.forEach(function (a, i) { if (a === null) unanswered.push(i + 1); });
+    var hint = el("grade-hint");
+    if (unanswered.length) {
+      hint.hidden = false;
+      hint.textContent = "未回答: Q" + unanswered.join(", Q") + " — すべて答えてから採点してください";
+      return;
+    }
+    hint.hidden = true;
+    clearInterval(timerHandle);
+    seconds = Math.max(1, Math.round((Date.now() - startAt) / 1000));
+
+    var correct = 0;
+    var misses = {};   // ミスの種類 -> 回数(traps から集計)
+    var wrongQs = [];
+    var fb = el("feedback");
+    document.querySelectorAll("#questions .q").forEach(function (qDiv, qi) {
+      var q = drill.questions[qi];
+      var right = q.type === "tf" ? (q.answer ? 0 : 1) : q.answer;
+      var ok = answers[qi] === right;
+      if (ok) correct++;
+      else {
+        wrongQs.push(qi + 1);
+        var trap = q.traps && q.traps[answers[qi]];
+        var kind = trap || (q.cat ? CAT_LABELS[q.cat] + "の誤り" : "正誤の誤り");
+        misses[kind] = (misses[kind] || 0) + 1;
+        if (trap) {
+          var tp = qDiv.querySelector(".trap");
+          tp.hidden = false;
+          tp.textContent = "⚠ ミスの種類: " + trap;
+        }
+      }
+      qDiv.classList.add("graded");
+      qDiv.querySelectorAll(".choice").forEach(function (b, ci) {
+        if (ci === right) b.classList.add("correct");
+        else if (ci === answers[qi]) b.classList.add("wrong");
+      });
+      var v = qDiv.querySelector(".verdict");
+      v.hidden = false;
+      v.className = "verdict " + (ok ? "ok" : "ng");
+      v.textContent = ok ? "○ 正解" : "✗ 不正解";
+      var ex = qDiv.querySelector(".explain");
+      ex.hidden = false;
+      ex.innerHTML = rich(q.explain);
+      fb.appendChild(qDiv);
+    });
+
+    var total = drill.questions.length;
+    el("step-questions").hidden = true;
+    el("step-result").hidden = false;
+    window.scrollTo(0, 0);
+    el("result-score").textContent = correct + "/" + total;
+    el("result-time").textContent = fmtTime(seconds);
+    var target = (drill.targetMinutes || 10) * 60;
+    el("result-note").textContent =
+      (correct / total >= 0.8 ? "正答率8割クリア!" : "まずは正答率8割を目指そう。") +
+      (seconds <= target ? "目安時間内。" : "目安" + (drill.targetMinutes || 10) + "分をオーバー。次は時間も意識しよう。");
+
+    var kinds = Object.keys(misses);
+    if (kinds.length) {
+      el("miss-panel").hidden = false;
+      kinds.sort(function (a, b) { return misses[b] - misses[a]; }).forEach(function (k) {
+        var li = document.createElement("li");
+        li.textContent = k + " × " + misses[k];
+        el("miss-list").appendChild(li);
+      });
+    }
+    if (drill.points && drill.points.length) {
+      el("points-panel").hidden = false;
+      drill.points.forEach(function (p) {
+        var li = document.createElement("li");
+        li.innerHTML = rich(p);
+        el("points").appendChild(li);
+      });
+    }
+
+    saveRecord(correct, total, misses, wrongQs);
+  }
+
+  function saveRecord(correct, total, misses, wrongQs) {
+    if (saved) return;
+    saved = true;
+    var name = "#" + drill.number + " " + drill.title;
+    try {
+      var key = "ch_records_v1";
+      var records = JSON.parse(localStorage.getItem(key) || "[]");
+      var now = new Date();
+      records.push({
+        ts: now.getTime(),
+        date: now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2) + "-" + ("0" + now.getDate()).slice(-2),
+        kind: "drill",
+        id: drill.id,
+        name: name,
+        seconds: seconds,
+        correct: correct,
+        total: total,
+        wrong: wrongQs,
+        misses: misses
+      });
+      localStorage.setItem(key, JSON.stringify(records));
+    } catch (e) { /* プライベートモード等では保存できないが、結果表示は継続 */ }
+
+    // 学習状況の記録(採点確定時に1回だけ)
+    if (window.CHReport) {
+      CHReport.reportDrillDone({ name: "確認ドリル" + name, correct: correct, total: total, minutes: seconds / 60 });
+    }
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+title: 高1化学 学習ノート
+description: 先生のプリントに沿った確認ドリル・用語カード・記録
+lang: ja
+theme: jekyll-theme-cayman
+plugins:
+  - jekyll-relative-links
+  - jekyll-readme-index
+relative_links:
+  enabled: true
+  collections: true
+readme_index:
+  enabled: true
+exclude:
+  - CLAUDE.md
+  - .claude/
+  - prints/
+  - tools/

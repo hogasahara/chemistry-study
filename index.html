@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>高1化学 学習ノート</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main>
+  <p class="site-name">高1化学 学習ノート(先生のプリント準拠)</p>
+
+  <section class="hero">
+    <p class="hero-label" id="today-date"></p>
+    <h1 id="task-title">読み込み中…</h1>
+    <p id="task-desc" class="muted"></p>
+    <a id="task-link" class="btn btn-primary btn-big" href="#" hidden>はじめる</a>
+    <p id="done-area" style="margin:12px 0 0"></p>
+    <p class="countdown" id="countdown"></p>
+  </section>
+
+  <h2>確認ドリル</h2>
+  <ul id="drill-list" class="cards"><li class="muted">読み込み中…</li></ul>
+
+  <h2>記録・資料</h2>
+  <ul class="links">
+    <li><a href="cards.html">🧪 用語・化学式カード(要復習はこちら)</a></li>
+    <li><a href="log.html">📈 記録(正答率・所要時間)</a></li>
+    <li><a href="drills/">📝 ドリルのやり方(紙でやる場合)</a></li>
+    <li><a href="profile.html">👤 学習者プロフィール</a></li>
+  </ul>
+</main>
+
+<script src="js/report.js"></script>
+<script>
+(function () {
+  // 学習状況の記録: トップページを開いたら1日1回「アクセス」を送る
+  if (window.CHReport) CHReport.reportAccess();
+
+  // ---- 設定(未確定。profile.md の未確認事項が決まったらここを更新する) ----
+  // 週間ルーティン: 化学に割ける曜日・時間は保護者と相談して決める。以下は英語版に合わせた仮置き
+  // (火・水・木は軽め)。link: "DRILL" = 最新ドリル / "CARDS" = 用語カード / それ以外はそのままURL
+  var WEEKLY = {
+    0: { title: "週の振り返り", desc: "今週の記録を見直して、ミスしたドリルを解き直す(20分)", link: "log.html", label: "記録を見る" },
+    1: { title: "確認ドリル", desc: "最新のプリント範囲をタイム測定しながら解く(15分)", link: "DRILL", label: "ドリルをはじめる" },
+    2: { title: "用語カード", desc: "用語・化学式カード(5〜10分)※忙しい日は軽めでOK", link: "CARDS", label: "カードをやる" },
+    3: { title: "用語カード", desc: "要復習のカードだけ(5分)※忙しい日は軽めでOK", link: "CARDS", label: "カードをやる" },
+    4: { title: "用語カード", desc: "用語・化学式カード(5〜10分)※忙しい日は軽めでOK", link: "CARDS", label: "カードをやる" },
+    5: { title: "確認ドリル", desc: "今週2本目。プリントを見ずに解く(15分)", link: "DRILL", label: "ドリルをはじめる" },
+    6: { title: "解き直し", desc: "今週ミスしたドリルをもう一度。目標は全問正解(15分)", link: "DRILL", label: "ドリルを開く" }
+  };
+  var TEST_DATE = null;          // 例: new Date(2026, 9, 22)  ※月は0始まり。化学のテスト日程は未確認
+  var TEST_NAME = "中間テスト";
+
+  var now = new Date();
+  var days = ["日", "月", "火", "水", "木", "金", "土"];
+  document.getElementById("today-date").textContent =
+    "今日のタスク — " + (now.getMonth() + 1) + "/" + now.getDate() + "(" + days[now.getDay()] + ")";
+
+  if (TEST_DATE) {
+    var left = Math.ceil((TEST_DATE - now) / 86400000);
+    var cd = document.getElementById("countdown");
+    if (left > 0) cd.textContent = "🔥 " + TEST_NAME + "まで あと" + left + "日";
+    else if (left > -5) cd.textContent = "テスト期間中!平常心でいこう";
+  }
+
+  var task = WEEKLY[now.getDay()];
+  document.getElementById("task-title").textContent = task.title;
+  document.getElementById("task-desc").textContent = task.desc;
+
+  // ---- 完了記録とストリーク ----
+  var REC_KEY = "ch_records_v1";
+  function loadRecords() {
+    try { return JSON.parse(localStorage.getItem(REC_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function dstr(d) {
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function renderDone() {
+    var records = loadRecords();
+    var dates = {};
+    records.forEach(function (r) { dates[r.date] = true; });
+    var today = dstr(now);
+    var hasToday = !!dates[today];
+
+    var streak = 0;
+    var d = new Date(now);
+    if (!hasToday) d.setDate(d.getDate() - 1);
+    while (dates[dstr(d)]) { streak++; d.setDate(d.getDate() - 1); }
+
+    var area = document.getElementById("done-area");
+    if (hasToday) {
+      area.innerHTML = '<span style="font-weight:700">✅ 今日の分は記録済み!</span>' +
+        (streak >= 2 ? ' <span class="muted">🔥 連続' + streak + "日目</span>" : "");
+    } else {
+      area.innerHTML = '<button class="btn" id="btn-done">✔ やった!(今日のタスクを完了として記録)</button>' +
+        (streak >= 1 ? ' <span class="muted small">昨日まで連続' + streak + "日</span>" : "");
+      document.getElementById("btn-done").addEventListener("click", function () {
+        var records = loadRecords();
+        records.push({ ts: Date.now(), date: today, kind: "done", name: "✔ " + task.title + "(完了)" });
+        try { localStorage.setItem(REC_KEY, JSON.stringify(records)); } catch (e) {}
+        // 学習状況の記録(ボタン押下時に1回だけ。記録済み表示になるので二重送信はしない)
+        if (window.CHReport) CHReport.reportDrillDone({ name: task.title + "(完了ボタン)" });
+        renderDone();
+      });
+    }
+  }
+  renderDone();
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  var btn = document.getElementById("task-link");
+  if (task.link && task.link !== "DRILL") {
+    btn.hidden = false;
+    btn.textContent = task.label;
+    btn.href = task.link === "CARDS" ? "cards.html" : task.link;
+  }
+
+  fetch("drills/drills.json")
+    .then(function (r) { return r.json(); })
+    .then(function (drills) {
+      drills.sort(function (a, b) { return a.date === b.date ? b.number - a.number : (a.date < b.date ? 1 : -1); });
+      if (task.link === "DRILL" && drills.length) {
+        btn.hidden = false;
+        btn.textContent = task.label;
+        btn.href = "drill.html?id=" + drills[0].id;
+      }
+
+      var list = document.getElementById("drill-list");
+      list.innerHTML = drills.length ? "" : '<li class="muted">まだドリルがありません(先生のプリントから作成予定)</li>';
+      drills.forEach(function (d) {
+        var li = document.createElement("li");
+        li.innerHTML =
+          '<div class="card-title">#' + d.number + " " + esc(d.title) +
+          (d.tag ? ' <span class="tag">' + esc(d.tag) + "</span>" : "") + "</div>" +
+          '<div class="card-meta">' + esc(d.unit) + " ・ " + d.questions + "問 ・ " + esc(d.source || "") + "</div>" +
+          '<div class="card-actions">' +
+          '<a class="btn btn-primary" href="drill.html?id=' + d.id + '">Webでやる</a>' +
+          '<a class="btn" href="drills/' + d.id + '/question.html">紙版</a>' +
+          "</div>";
+        list.appendChild(li);
+      });
+    })
+    .catch(function () {
+      document.getElementById("drill-list").innerHTML = '<li class="muted">ドリル一覧を読み込めませんでした</li>';
+    });
+})();
+</script>
+</body>
+</html>

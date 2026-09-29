@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>記録(正答率・所要時間)</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main>
+  <p class="site-name"><a href="./">← トップへ</a></p>
+  <h1>📈 記録(正答率・所要時間)</h1>
+  <p class="muted small">Webドリル・用語カードの結果と「やった!」の完了記録は自動で追加されます。紙でやった分は下のフォームから手入力できます。<br>
+  目標: <strong>正答率8割 → 目安時間内で8割</strong>(速さより先に正確さ)</p>
+
+  <div class="panel" id="miss-summary" hidden>
+    <h2 style="margin-top:0">ミスの種類(直近のドリル合計)</h2>
+    <ul class="miss-list" id="miss-list"></ul>
+    <p class="muted small" style="margin-bottom:0">多いものから順。同じミスが続くなら、プリントのその部分を読み直そう。</p>
+  </div>
+
+  <div class="panel">
+    <div class="table-wrap">
+      <table class="plain" id="records">
+        <thead><tr><th>日付</th><th>内容</th><th>正答</th><th>時間</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="muted small" id="empty-msg" hidden>まだ記録がありません。トップページからドリルをやってみよう!</p>
+    <p style="margin-bottom:0"><button class="btn" id="btn-copy">📋 記録をテキストでコピー(共有用)</button> <span class="small muted" id="copy-done" hidden>コピーしました</span></p>
+  </div>
+
+  <div class="panel">
+    <h2 style="margin-top:0">手入力で追加(紙でやった分)</h2>
+    <form class="rec" id="form">
+      <label>日付</label>
+      <input type="date" id="f-date" required>
+      <label>内容(例: #1 物質の構成 / プリント No.3 復習)</label>
+      <input type="text" id="f-name" required placeholder="#1 物質の構成">
+      <div class="row2">
+        <div><label>正解数</label><input type="number" id="f-correct" min="0" required placeholder="8"></div>
+        <div><label>問題数</label><input type="number" id="f-total" min="1" required placeholder="10"></div>
+      </div>
+      <label>所要時間(分・任意)</label>
+      <input type="number" id="f-minutes" min="1" placeholder="15">
+      <p><button type="submit" class="btn btn-primary btn-big">追加する</button></p>
+    </form>
+  </div>
+
+  <p class="muted small">⚠️ 記録はこの端末のブラウザ内に保存されます。別の端末には共有されないので、いつも同じ端末(スマホ)で使うのがおすすめ。機種変更などの前は「コピー」で退避を。</p>
+</main>
+
+<script src="js/report.js"></script>
+<script>
+(function () {
+  var KEY = "ch_records_v1";
+  var MISS_WINDOW = 10; // ミス集計の対象: 直近のドリル記録の件数
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "[]"); }
+    catch (e) { return []; }
+  }
+  function store(records) {
+    try { localStorage.setItem(KEY, JSON.stringify(records)); } catch (e) {}
+  }
+  function fmtTime(s) { return s ? Math.floor(s / 60) + "分" + ("0" + (s % 60)).slice(-2) + "秒" : ""; }
+
+  function render() {
+    var records = load().sort(function (a, b) { return b.ts - a.ts; });
+    var tbody = document.querySelector("#records tbody");
+    tbody.innerHTML = "";
+    document.getElementById("empty-msg").hidden = records.length > 0;
+    records.forEach(function (r) {
+      var rateCell = '<span class="muted">—</span>';
+      if (r.total) {
+        var rate = Math.round(r.correct / r.total * 100);
+        rateCell = r.correct + "/" + r.total + (rate >= 80 ? " ✅" : "");
+      }
+      var wrong = r.wrong && r.wrong.length ? '<br><span class="muted small">ミス: Q' + r.wrong.join(", Q") + "</span>" : "";
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + r.date + "</td>" +
+        "<td>" + escapeHtml(r.name) + wrong + "</td>" +
+        "<td>" + rateCell + "</td>" +
+        "<td>" + (r.seconds ? fmtTime(r.seconds) : '<span class="muted">—</span>') + "</td>" +
+        '<td><button class="del" data-ts="' + r.ts + '">削除</button></td>';
+      tbody.appendChild(tr);
+    });
+
+    // ミスの種類の集計(drill.json の traps 由来。直近 MISS_WINDOW 件のドリル記録)
+    var totals = {};
+    records.filter(function (r) { return r.misses; }).slice(0, MISS_WINDOW).forEach(function (r) {
+      Object.keys(r.misses).forEach(function (k) { totals[k] = (totals[k] || 0) + r.misses[k]; });
+    });
+    var kinds = Object.keys(totals).sort(function (a, b) { return totals[b] - totals[a]; });
+    document.getElementById("miss-summary").hidden = kinds.length === 0;
+    var ml = document.getElementById("miss-list");
+    ml.innerHTML = "";
+    kinds.forEach(function (k) {
+      var li = document.createElement("li");
+      li.textContent = k + " × " + totals[k];
+      ml.appendChild(li);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  document.querySelector("#records tbody").addEventListener("click", function (e) {
+    var btn = e.target.closest(".del");
+    if (!btn) return;
+    if (!confirm("この記録を削除しますか?")) return;
+    store(load().filter(function (r) { return String(r.ts) !== btn.dataset.ts; }));
+    render();
+  });
+
+  document.getElementById("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var minutes = +document.getElementById("f-minutes").value;
+    var rec = {
+      ts: Date.now(),
+      date: document.getElementById("f-date").value,
+      kind: "paper",
+      name: document.getElementById("f-name").value,
+      correct: +document.getElementById("f-correct").value,
+      total: +document.getElementById("f-total").value
+    };
+    if (minutes > 0) rec.seconds = Math.round(minutes * 60);
+    var records = load();
+    records.push(rec);
+    store(records);
+
+    // 学習状況の記録(紙でやった分の手入力)
+    if (window.CHReport) {
+      CHReport.reportDrillDone({ name: "紙 " + rec.name, correct: rec.correct, total: rec.total, minutes: minutes || undefined });
+    }
+    e.target.reset();
+    setToday();
+    render();
+  });
+
+  document.getElementById("btn-copy").addEventListener("click", function () {
+    var lines = load().sort(function (a, b) { return a.ts - b.ts; }).map(function (r) {
+      var parts = [r.date + " " + r.name];
+      if (r.total) parts.push(r.correct + "/" + r.total);
+      if (r.seconds) parts.push(fmtTime(r.seconds));
+      if (r.wrong && r.wrong.length) parts.push("ミス Q" + r.wrong.join(",Q"));
+      return parts.join(" | ");
+    });
+    var text = lines.length ? "化学 記録\n" + lines.join("\n") : "記録なし";
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () {
+      document.getElementById("copy-done").hidden = false;
+      setTimeout(function () { document.getElementById("copy-done").hidden = true; }, 2000);
+    }).catch(function () { prompt("コピーしてください:", text); });
+  });
+
+  function setToday() {
+    var n = new Date();
+    document.getElementById("f-date").value =
+      n.getFullYear() + "-" + ("0" + (n.getMonth() + 1)).slice(-2) + "-" + ("0" + n.getDate()).slice(-2);
+  }
+
+  setToday();
+  render();
+})();
+</script>
+</body>
+</html>
