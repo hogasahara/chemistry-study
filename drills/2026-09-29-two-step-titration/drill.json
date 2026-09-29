@@ -1,0 +1,193 @@
+{
+  "id": "2026-09-29-two-step-titration",
+  "number": 2,
+  "title": "二段階滴定",
+  "unit": "酸と塩基",
+  "source": {
+    "print": "prints/sanenki-15-19.md",
+    "label": "プリント 酸塩基18〜19"
+  },
+  "date": "2026-09-29",
+  "targetMinutes": 15,
+  "terms": [
+    [
+      "二段階滴定",
+      "Na<sub>2</sub>CO<sub>3</sub> を塩酸で滴定するときのように、中和点が2か所ある滴定"
+    ],
+    [
+      "第1中和点",
+      "CO<sub>3</sub><sup>2−</sup> + H<sup>+</sup> → HCO<sub>3</sub><sup>−</sup> が終わる点。フェノールフタレインで見る(赤→無色)"
+    ],
+    [
+      "第2中和点",
+      "HCO<sub>3</sub><sup>−</sup> + H<sup>+</sup> → H<sub>2</sub>O + CO<sub>2</sub> が終わる点。メチルオレンジで見る(黄→赤)"
+    ],
+    [
+      "Na<sub>2</sub>CO<sub>3</sub>",
+      "炭酸ナトリウム"
+    ],
+    [
+      "NaHCO<sub>3</sub>",
+      "炭酸水素ナトリウム(水溶液は弱い塩基性)"
+    ],
+    [
+      "ワルダー法",
+      "NaOH と Na<sub>2</sub>CO<sub>3</sub> の混合物を二段階滴定で定量する方法"
+    ],
+    [
+      "2NaOH + CO<sub>2</sub> → Na<sub>2</sub>CO<sub>3</sub> + H<sub>2</sub>O",
+      "NaOH が空気中の CO<sub>2</sub> と反応して一部が Na<sub>2</sub>CO<sub>3</sub> になる"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "tf",
+      "q": "Na<sub>2</sub>CO<sub>3</sub> 水溶液を塩酸で滴定するとき、第1中和点までに使う塩酸の体積と、第1中和点から第2中和点までに使う塩酸の体積は等しい。",
+      "answer": true,
+      "explain": "第1段階で Na<sub>2</sub>CO<sub>3</sub> と同じ物質量の NaHCO<sub>3</sub> ができ、第2段階でそれが全部反応する。どちらも Na<sub>2</sub>CO<sub>3</sub> と同じ物質量の HCl を使う。"
+    },
+    {
+      "type": "tf",
+      "q": "第1中和点の水溶液は酸性である。",
+      "answer": false,
+      "explain": "第1中和点には NaHCO<sub>3</sub> ができているので弱い塩基性(だからフェノールフタレインで見る)。酸性になるのは CO<sub>2</sub> ができる第2中和点。"
+    },
+    {
+      "type": "mc",
+      "cat": "equation",
+      "q": "第1中和点までの反応 Na<sub>2</sub>CO<sub>3</sub> + HCl → NaCl + 【 ア 】 のアに入るものはどれか。",
+      "choices": [
+        "H<sub>2</sub>O + CO<sub>2</sub>",
+        "NaOH",
+        "NaHCO<sub>3</sub>",
+        "H<sub>2</sub>CO<sub>3</sub>"
+      ],
+      "answer": 2,
+      "traps": [
+        "第1段階と第2段階の混同",
+        "生成物の誤り",
+        null,
+        "第1段階と第2段階の混同"
+      ],
+      "explain": "CO<sub>3</sub><sup>2−</sup> はまず H<sup>+</sup> を1個だけ受け取って HCO<sub>3</sub><sup>−</sup> になる(NaHCO<sub>3</sub>)。H<sub>2</sub>O + CO<sub>2</sub> になるのは第2段階。"
+    },
+    {
+      "type": "mc",
+      "cat": "combo",
+      "q": "Na<sub>2</sub>CO<sub>3</sub> 水溶液にフェノールフタレインを加えて塩酸で滴定し、第1中和点のあとメチルオレンジを加えてさらに滴定した。第1中和点・第2中和点での溶液の色の変化の組み合わせとして正しいものはどれか。",
+      "choices": [
+        "第1: 無色→赤色 ・ 第2: 黄色→赤色",
+        "第1: 赤色→無色 ・ 第2: 赤色→黄色",
+        "第1: 無色→赤色 ・ 第2: 赤色→黄色",
+        "第1: 赤色→無色 ・ 第2: 黄色→赤色"
+      ],
+      "answer": 3,
+      "traps": [
+        "色の変化の向きの逆",
+        "色の変化の向きの逆",
+        "色の変化の向きの逆",
+        null
+      ],
+      "explain": "酸を加えていくので pH は下がる。フェノールフタレインは塩基性で赤 → 無色、メチルオレンジは塩基〜中性側で黄 → 酸性で赤。定石: 「酸で滴定 → 塩基性の色から酸性の色へ」。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "濃度のわからない Na<sub>2</sub>CO<sub>3</sub> 水溶液 20.0 mL を 0.100 mol/L の塩酸で滴定したところ、第1中和点までに 12.0 mL を要した。Na<sub>2</sub>CO<sub>3</sub> 水溶液のモル濃度は何 mol/L か。",
+      "choices": [
+        "0.120 mol/L",
+        "0.0600 mol/L",
+        "0.0300 mol/L",
+        "0.600 mol/L"
+      ],
+      "answer": 1,
+      "traps": [
+        "第2中和点までの量を使った",
+        null,
+        "価数の誤り",
+        "桁ミス"
+      ],
+      "explain": "第1段階は Na<sub>2</sub>CO<sub>3</sub> : HCl = 1 : 1。0.100×(12.0/1000) = 1.20×10<sup>−3</sup> mol → ÷(20.0/1000) = 0.0600 mol/L。第1段階だけを見るときは Na<sub>2</sub>CO<sub>3</sub> を「1価」として扱う。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "前の問題と同じ滴定で、滴定開始から第2中和点までに加えた塩酸は合計何 mL か。",
+      "choices": [
+        "12.0 mL",
+        "36.0 mL",
+        "24.0 mL",
+        "6.0 mL"
+      ],
+      "answer": 2,
+      "traps": [
+        "第1段階だけで考えた",
+        "段階の数の誤り",
+        null,
+        "第1段階と第2段階の関係の誤り"
+      ],
+      "explain": "第1段階と第2段階で使う塩酸は同じ量(12.0 mL ずつ)なので、合計 24.0 mL。"
+    },
+    {
+      "type": "mc",
+      "cat": "combo",
+      "q": "NaOH と Na<sub>2</sub>CO<sub>3</sub> の混合水溶液を塩酸で二段階滴定した。次の記述 a・b の正誤の組み合わせとして正しいものはどれか。<br>a 第1中和点までに、NaOH と Na<sub>2</sub>CO<sub>3</sub> の両方が塩酸と反応する。<br>b 第1中和点から第2中和点までに塩酸と反応するのは NaOH である。",
+      "choices": [
+        "a 正 ・ b 正",
+        "a 正 ・ b 誤",
+        "a 誤 ・ b 正",
+        "a 誤 ・ b 誤"
+      ],
+      "answer": 1,
+      "traps": [
+        "段階ごとの反応の混同",
+        null,
+        "段階ごとの反応の混同",
+        "段階ごとの反応の混同"
+      ],
+      "explain": "第1段階: 強塩基の NaOH の中和と、Na<sub>2</sub>CO<sub>3</sub> → NaHCO<sub>3</sub>(a は正)。第2段階で反応するのは NaHCO<sub>3</sub> だけ(b は誤)。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "NaOH と Na<sub>2</sub>CO<sub>3</sub> の混合水溶液 20.0 mL を 0.500 mol/L の塩酸で滴定した。第1中和点までに 10.0 mL、第1中和点から第2中和点までに 3.0 mL を要した。混合水溶液中の Na<sub>2</sub>CO<sub>3</sub> は何 mol か。",
+      "choices": [
+        "1.5×10<sup>−3</sup> mol",
+        "5.0×10<sup>−3</sup> mol",
+        "6.5×10<sup>−3</sup> mol",
+        "3.0×10<sup>−3</sup> mol"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "第1中和点までの量を使った",
+        "合計量を使った",
+        "価数の誤り"
+      ],
+      "explain": "第2段階(3.0 mL)で反応するのは NaHCO<sub>3</sub> だけで、その量は元の Na<sub>2</sub>CO<sub>3</sub> と同じ。0.500×(3.0/1000) = 1.5×10<sup>−3</sup> mol。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "前の問題と同じ滴定で、混合水溶液中の NaOH は何 mol か。",
+      "choices": [
+        "5.0×10<sup>−3</sup> mol",
+        "3.5×10<sup>−2</sup> mol",
+        "2.0×10<sup>−3</sup> mol",
+        "3.5×10<sup>−3</sup> mol"
+      ],
+      "answer": 3,
+      "traps": [
+        "Na<sub>2</sub>CO<sub>3</sub> の分を引き忘れ",
+        "桁ミス",
+        "Na<sub>2</sub>CO<sub>3</sub> の分を2回引いた",
+        null
+      ],
+      "explain": "第1段階の 10.0 mL には Na<sub>2</sub>CO<sub>3</sub> の分(第2段階と同じ 3.0 mL)が含まれる。NaOH の分は 10.0 − 3.0 = 7.0 mL → 0.500×(7.0/1000) = 3.5×10<sup>−3</sup> mol。定石: 図の a − b。"
+    }
+  ],
+  "points": [
+    "Na<sub>2</sub>CO<sub>3</sub> は「H<sup>+</sup> を1個ずつ2回受け取る」。第1段階と第2段階の酸の量は等しい。",
+    "混合塩基(ワルダー法): Na<sub>2</sub>CO<sub>3</sub> は第2段階の量 b から、NaOH は a − b から求める。"
+  ]
+}
