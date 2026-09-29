@@ -1,0 +1,220 @@
+{
+  "id": "2026-09-29-acid-base-basics",
+  "number": 8,
+  "title": "酸・塩基の定義と電離度",
+  "unit": "酸と塩基",
+  "source": {
+    "print": "prints/sanenki-01-04.md",
+    "label": "プリント 酸塩基1〜2"
+  },
+  "date": "2026-09-29",
+  "targetMinutes": 12,
+  "terms": [
+    [
+      "酸の性質",
+      "すっぱい味。青色リトマス紙を赤に、BTB を黄色にする。金属と反応して H<sub>2</sub> を発生"
+    ],
+    [
+      "塩基の性質",
+      "苦い味。赤色リトマス紙を青に、BTB を青色にする。手につけるとぬるぬるする"
+    ],
+    [
+      "アレニウスの定義",
+      "酸: 水溶液中で電離して H<sup>+</sup> を生じる物質 / 塩基: 水溶液中で電離して OH<sup>−</sup> を生じる物質"
+    ],
+    [
+      "ブレンステッド・ローリーの定義",
+      "酸: H<sup>+</sup>(陽子)を与える物質 / 塩基: H<sup>+</sup>(陽子)を受け取る物質"
+    ],
+    [
+      "H<sub>3</sub>O<sup>+</sup>",
+      "オキソニウムイオン"
+    ],
+    [
+      "価数",
+      "酸・塩基1つが出せる H<sup>+</sup> や OH<sup>−</sup> の数"
+    ],
+    [
+      "電離度 α",
+      "電離した酸(塩基)の量 ÷ 溶かした酸(塩基)の量(0 ＜ α ≦ 1)"
+    ],
+    [
+      "強酸",
+      "HCl, HNO<sub>3</sub>, H<sub>2</sub>SO<sub>4</sub>(α ≒ 1)"
+    ],
+    [
+      "強塩基",
+      "NaOH, KOH, Ca(OH)<sub>2</sub>, Ba(OH)<sub>2</sub>(α ≒ 1)"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "tf",
+      "q": "酸の水溶液は、青色リトマス紙を赤色に変え、BTB 溶液を黄色にする。",
+      "answer": true,
+      "explain": "酸: リトマス 青→赤、BTB 黄。塩基: リトマス 赤→青、BTB 青。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "アレニウスの定義による「塩基」の説明として正しいものはどれか。",
+      "choices": [
+        "水溶液中で電離して OH<sup>−</sup> を生じる物質",
+        "H<sup>+</sup> を受け取る物質",
+        "H<sup>+</sup> を与える物質",
+        "水溶液中で電離して H<sup>+</sup> を生じる物質"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "定義の取り違え(ブレンステッド・ローリー)",
+        "酸と塩基の取り違え",
+        "酸と塩基の取り違え"
+      ],
+      "explain": "アレニウスは「水溶液中で何を出すか」(H<sup>+</sup> なら酸、OH<sup>−</sup> なら塩基)。ブレンステッド・ローリーは「H<sup>+</sup> をやりとりする向き」。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "CH<sub>3</sub>COOH + H<sub>2</sub>O ⇄ CH<sub>3</sub>COO<sup>−</sup> + H<sub>3</sub>O<sup>+</sup> の右向きの反応で、H<sub>2</sub>O はどのような働きをしているか(ブレンステッド・ローリーの定義)。",
+      "choices": [
+        "酸",
+        "塩基",
+        "どちらでもない",
+        "酸と塩基の両方"
+      ],
+      "answer": 1,
+      "traps": [
+        "H<sup>+</sup> の向きの取り違え",
+        null,
+        "定義の誤り",
+        "定義の誤り"
+      ],
+      "explain": "H<sub>2</sub>O は CH<sub>3</sub>COOH から H<sup>+</sup> を受け取って H<sub>3</sub>O<sup>+</sup> になった → 塩基。定石: H<sup>+</sup> の矢印を書いて、渡した側が酸、受け取った側が塩基。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "CO<sub>3</sub><sup>2−</sup> + H<sub>2</sub>O ⇄ HCO<sub>3</sub><sup>−</sup> + OH<sup>−</sup> の右向きの反応で、H<sub>2</sub>O はどのような働きをしているか。",
+      "choices": [
+        "塩基",
+        "どちらでもない",
+        "酸",
+        "酸と塩基の両方"
+      ],
+      "answer": 2,
+      "traps": [
+        "H<sup>+</sup> の向きの取り違え",
+        "定義の誤り",
+        null,
+        "定義の誤り"
+      ],
+      "explain": "H<sub>2</sub>O が CO<sub>3</sub><sup>2−</sup> に H<sup>+</sup> を与えて OH<sup>−</sup> になった → 酸。水は相手によって酸にも塩基にもなる。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "2価の酸の組み合わせとして正しいものはどれか。",
+      "choices": [
+        "H<sub>2</sub>SO<sub>4</sub> と (COOH)<sub>2</sub>",
+        "HNO<sub>3</sub> と H<sub>2</sub>S",
+        "H<sub>3</sub>PO<sub>4</sub> と H<sub>2</sub>CO<sub>3</sub>",
+        "CH<sub>3</sub>COOH と H<sub>2</sub>SO<sub>4</sub>"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "価数の誤り",
+        "価数の誤り",
+        "H の数で価数を数えた"
+      ],
+      "explain": "硫酸・シュウ酸 (COOH)<sub>2</sub>・炭酸・硫化水素が2価。酢酸 CH<sub>3</sub>COOH は H を4つ持つが、出せるのは COOH の1つだけなので1価。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次のうち、弱塩基はどれか。",
+      "choices": [
+        "Ba(OH)<sub>2</sub>",
+        "KOH",
+        "NH<sub>3</sub>",
+        "Ca(OH)<sub>2</sub>"
+      ],
+      "answer": 2,
+      "traps": [
+        "価数と強弱の混同",
+        "強弱の誤り",
+        null,
+        "価数と強弱の混同"
+      ],
+      "explain": "強塩基は NaOH・KOH・Ca(OH)<sub>2</sub>・Ba(OH)<sub>2</sub>。NH<sub>3</sub> は弱塩基(電離度が小さい)。価数と強弱は別の話。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "0.050 mol/L の酢酸水溶液の水素イオン濃度は 1.0×10<sup>−3</sup> mol/L であった。酢酸の電離度はいくらか。",
+      "choices": [
+        "5.0×10<sup>−5</sup>",
+        "0.020",
+        "50",
+        "0.20"
+      ],
+      "answer": 1,
+      "traps": [
+        "割らずに掛けた",
+        null,
+        "割り算の逆",
+        "桁ミス"
+      ],
+      "explain": "α = 電離した量 ÷ 溶かした量 = 1.0×10<sup>−3</sup> ÷ 0.050 = 0.020。答えは必ず 0 ＜ α ≦ 1 になるので、50 はありえない。"
+    },
+    {
+      "type": "tf",
+      "q": "弱酸の水溶液は、うすめるほど電離度が小さくなる。",
+      "answer": false,
+      "explain": "弱酸は濃度が小さい(うすい)ほど電離度が大きくなり、1 に近づく(プリントのグラフ)。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "炭酸 H<sub>2</sub>CO<sub>3</sub> のような多価の弱酸の電離について、正しいものはどれか。",
+      "choices": [
+        "2つの H<sup>+</sup> が一度にまとめて電離する",
+        "第2段階の電離の方が第1段階より起こりやすい",
+        "第1段階と第2段階は同じ程度に起こる",
+        "第1段階の電離は起こりやすいが、それ以降は起こりにくい"
+      ],
+      "answer": 3,
+      "traps": [
+        "段階的な電離の誤り",
+        "段階的な電離の誤り",
+        "段階的な電離の誤り",
+        null
+      ],
+      "explain": "H<sub>2</sub>CO<sub>3</sub> ⇄ H<sup>+</sup> + HCO<sub>3</sub><sup>−</sup>(起こりやすい)→ HCO<sub>3</sub><sup>−</sup> ⇄ H<sup>+</sup> + CO<sub>3</sub><sup>2−</sup>(起こりにくい)。"
+    },
+    {
+      "type": "mc",
+      "cat": "fill",
+      "q": "HCl + H<sub>2</sub>O → 【 ア 】 + Cl<sup>−</sup> のアに入るイオンの名前はどれか。",
+      "choices": [
+        "アンモニウムイオン",
+        "水酸化物イオン",
+        "オキソニウムイオン",
+        "塩化物イオン"
+      ],
+      "answer": 2,
+      "traps": [
+        "イオンの名前の誤り",
+        "イオンの名前の誤り",
+        null,
+        "イオンの名前の誤り"
+      ],
+      "explain": "H<sub>2</sub>O が H<sup>+</sup> を受け取ると H<sub>3</sub>O<sup>+</sup>(オキソニウムイオン)。水溶液中の H<sup>+</sup> は実際はこの形で存在する。"
+    }
+  ],
+  "points": [
+    "ブレンステッド・ローリーは「H<sup>+</sup> の矢印」を書く: 渡した側が酸、受け取った側が塩基。",
+    "価数(いくつ出せるか)と強弱(どれだけ電離するか)は別。"
+  ]
+}

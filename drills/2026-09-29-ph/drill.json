@@ -1,0 +1,212 @@
+{
+  "id": "2026-09-29-ph",
+  "number": 9,
+  "title": "水素イオン濃度と pH",
+  "unit": "酸と塩基",
+  "source": {
+    "print": "prints/sanenki-01-04.md",
+    "label": "プリント 酸塩基3〜4"
+  },
+  "date": "2026-09-29",
+  "targetMinutes": 15,
+  "terms": [
+    [
+      "水のイオン積 K<sub>w</sub>",
+      "[H<sup>+</sup>]×[OH<sup>−</sup>] = 1.0×10<sup>−14</sup> (mol/L)<sup>2</sup>(25℃)"
+    ],
+    [
+      "中性",
+      "[H<sup>+</sup>] = [OH<sup>−</sup>] = 1.0×10<sup>−7</sup> mol/L(pH 7)"
+    ],
+    [
+      "pH",
+      "水素イオン指数。pH = −log<sub>10</sub>[H<sup>+</sup>]"
+    ],
+    [
+      "[H<sup>+</sup>] = 1.0×10<sup>−n</sup> mol/L",
+      "pH = n"
+    ],
+    [
+      "pH が 1 小さい",
+      "[H<sup>+</sup>] が 10 倍"
+    ],
+    [
+      "[H<sup>+</sup>] の求め方",
+      "酸の濃度 × 価数 × 電離度"
+    ],
+    [
+      "酸をうすめたときの pH",
+      "7 に近づくが、7 を超えない"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "[OH<sup>−</sup>] = 5.0×10<sup>−9</sup> mol/L の水溶液の液性はどれか(25℃)。",
+      "choices": [
+        "酸性",
+        "中性",
+        "塩基性",
+        "これだけでは判断できない"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "液性の判断の誤り",
+        "[H<sup>+</sup>] と [OH<sup>−</sup>] の取り違え",
+        "K<sub>w</sub> の使い忘れ"
+      ],
+      "explain": "[H<sup>+</sup>] = 1.0×10<sup>−14</sup> ÷ 5.0×10<sup>−9</sup> = 2.0×10<sup>−6</sup> mol/L ＞ 1.0×10<sup>−7</sup> → 酸性。[OH<sup>−</sup>] が 10<sup>−7</sup> より小さければ酸性、と覚えてもよい。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "[OH<sup>−</sup>] = 1.0×10<sup>−4</sup> mol/L の水溶液の pH はいくらか(25℃)。",
+      "choices": [
+        "4",
+        "10",
+        "11",
+        "9"
+      ],
+      "answer": 1,
+      "traps": [
+        "[H<sup>+</sup>] と [OH<sup>−</sup>] の取り違え",
+        null,
+        "計算の誤り",
+        "計算の誤り"
+      ],
+      "explain": "[H<sup>+</sup>] = 1.0×10<sup>−14</sup> ÷ 1.0×10<sup>−4</sup> = 1.0×10<sup>−10</sup> → pH 10。定石: 塩基は pH = 14 − (OH<sup>−</sup> の指数)。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "0.0050 mol/L の硫酸の pH はいくらか。硫酸は完全に電離するものとし、log<sub>10</sub>2 = 0.30 とする。",
+      "choices": [
+        "2.3",
+        "1.0",
+        "3.0",
+        "2.0"
+      ],
+      "answer": 3,
+      "traps": [
+        "価数の誤り",
+        "桁ミス",
+        "桁ミス",
+        null
+      ],
+      "explain": "[H<sup>+</sup>] = 0.0050 × 2 = 1.0×10<sup>−2</sup> mol/L → pH 2.0。硫酸は2価なので ×2 を忘れない。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "0.050 mol/L の酢酸水溶液の pH はいくらか。電離度は 0.020 とする。",
+      "choices": [
+        "1.3",
+        "3.0",
+        "5.0",
+        "2.0"
+      ],
+      "answer": 1,
+      "traps": [
+        "電離度の掛け忘れ",
+        null,
+        "計算の誤り",
+        "計算の誤り"
+      ],
+      "explain": "[H<sup>+</sup>] = 0.050 × 1 × 0.020 = 1.0×10<sup>−3</sup> mol/L → pH 3.0。弱酸は電離度を掛ける。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "アンモニア 0.020 mol を水に溶かして 200 mL にした水溶液の pH はいくらか。電離度は 0.010 とする(25℃)。",
+      "choices": [
+        "3.0",
+        "11",
+        "10.3",
+        "13"
+      ],
+      "answer": 1,
+      "traps": [
+        "[H<sup>+</sup>] と [OH<sup>−</sup>] の取り違え",
+        null,
+        "物質量をそのまま濃度にした",
+        "電離度の掛け忘れ"
+      ],
+      "explain": "濃度 = 0.020 ÷ 0.200 = 0.10 mol/L。[OH<sup>−</sup>] = 0.10 × 0.010 = 1.0×10<sup>−3</sup> → [H<sup>+</sup>] = 1.0×10<sup>−11</sup> → pH 11。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "0.020 mol/L の酢酸水溶液の pH はいくらか。電離度は 0.020、log<sub>10</sub>2 = 0.30 とする。",
+      "choices": [
+        "3.7",
+        "1.7",
+        "4.0",
+        "3.4"
+      ],
+      "answer": 3,
+      "traps": [
+        "log の計算の誤り",
+        "電離度の掛け忘れ",
+        "log の計算の誤り",
+        null
+      ],
+      "explain": "[H<sup>+</sup>] = 0.020 × 0.020 = 4.0×10<sup>−4</sup> mol/L。pH = −log(2<sup>2</sup>×10<sup>−4</sup>) = 4 − 2×0.30 = 3.4。定石: 4 = 2<sup>2</sup> なので log 4 = 0.60。"
+    },
+    {
+      "type": "tf",
+      "q": "pH 3 の塩酸を水で 100 倍にうすめると、pH は 5 になる。",
+      "answer": true,
+      "explain": "[H<sup>+</sup>] が 1/100 → 10<sup>−3</sup> から 10<sup>−5</sup> へ。pH は 2 大きくなる。"
+    },
+    {
+      "type": "tf",
+      "q": "pH 6 の塩酸を水で 100 倍にうすめると、pH は 8 になる。",
+      "answer": false,
+      "explain": "酸をいくらうすめても塩基性にはならない。pH は 7 に近づくだけ(水自身の H<sup>+</sup> 1.0×10<sup>−7</sup> mol/L があるため)。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "濃度がすべて 0.10 mol/L の次の水溶液のうち、pH が最も小さいものはどれか。",
+      "choices": [
+        "HCl",
+        "CH<sub>3</sub>COOH",
+        "H<sub>2</sub>SO<sub>4</sub>",
+        "NaOH"
+      ],
+      "answer": 2,
+      "traps": [
+        "価数の見落とし",
+        "強弱の誤り",
+        null,
+        "pH の大小の取り違え"
+      ],
+      "explain": "pH が小さい = [H<sup>+</sup>] が大きい。硫酸は強酸かつ2価で [H<sup>+</sup>] = 0.20 mol/L と最大。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "pH 2 の塩酸 100 mL と pH 4 の塩酸 100 mL を混ぜた。混合溶液の pH に最も近いものはどれか。log<sub>10</sub>2 = 0.30 とする。",
+      "choices": [
+        "3.0",
+        "2.3",
+        "2.0",
+        "1.7"
+      ],
+      "answer": 1,
+      "traps": [
+        "pH を平均した",
+        null,
+        "うすまりを忘れた",
+        "計算の誤り"
+      ],
+      "explain": "H<sup>+</sup> = 1.0×10<sup>−2</sup>×0.100 + 1.0×10<sup>−4</sup>×0.100 ≒ 1.0×10<sup>−3</sup> mol。体積 0.200 L → [H<sup>+</sup>] ≒ 5.0×10<sup>−3</sup> mol/L → pH = 3 − log 5 = 3 − 0.70 = 2.3。pH は平均できない(mol で足す)。"
+    }
+  ],
+  "points": [
+    "[H<sup>+</sup>] = 濃度 × 価数 × 電離度 → pH = −log[H<sup>+</sup>]。塩基は [OH<sup>−</sup>] を出してから K<sub>w</sub> で [H<sup>+</sup>] に直す。",
+    "うすめると pH は 7 に近づくだけ。混合は mol で足して体積で割る。"
+  ]
+}
