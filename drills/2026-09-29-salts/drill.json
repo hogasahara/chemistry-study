@@ -1,0 +1,203 @@
+{
+  "id": "2026-09-29-salts",
+  "number": 3,
+  "title": "塩の生成と反応",
+  "unit": "酸と塩基",
+  "source": {
+    "print": "prints/sanenki-10-14.md",
+    "label": "プリント 酸塩基10〜11"
+  },
+  "date": "2026-09-29",
+  "targetMinutes": 12,
+  "terms": [
+    [
+      "塩基性酸化物",
+      "金属の酸化物。水に溶けて塩基性を示し、酸と反応して塩を生じる(Na<sub>2</sub>O, CaO, CuO など)"
+    ],
+    [
+      "酸性酸化物",
+      "非金属の酸化物。水に溶けて酸性を示し、塩基と反応して塩を生じる(CO<sub>2</sub>, SO<sub>3</sub> など)"
+    ],
+    [
+      "オキソ酸",
+      "O 原子を含む酸(H<sub>2</sub>CO<sub>3</sub>, H<sub>2</sub>SO<sub>4</sub> など)"
+    ],
+    [
+      "弱酸の遊離",
+      "弱酸の塩 + 強酸 → 強酸の塩 + 弱酸"
+    ],
+    [
+      "揮発性の酸の遊離",
+      "揮発性の酸の塩 + 不揮発性の酸(加熱)→ 不揮発性の酸の塩 + 揮発性の酸"
+    ],
+    [
+      "塩の加水分解",
+      "弱酸・弱塩基の塩から生じたイオンの一部が水と反応し、電離前の形にもどること"
+    ],
+    [
+      "CH<sub>3</sub>COONa",
+      "酢酸ナトリウム(弱酸+強塩基の塩。水溶液は塩基性)"
+    ],
+    [
+      "NH<sub>4</sub>Cl",
+      "塩化アンモニウム(強酸+弱塩基の塩。水溶液は酸性)"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "tf",
+      "q": "CO<sub>2</sub> は水に溶けて酸性を示す、酸性酸化物である。",
+      "answer": true,
+      "explain": "CO<sub>2</sub> + H<sub>2</sub>O → H<sub>2</sub>CO<sub>3</sub>(炭酸)。非金属の酸化物 → 酸性酸化物。"
+    },
+    {
+      "type": "tf",
+      "q": "CaO は水に溶けると酸性を示すので、酸性酸化物である。",
+      "answer": false,
+      "explain": "Ca は金属 → CaO は塩基性酸化物。CaO + H<sub>2</sub>O → Ca(OH)<sub>2</sub>(塩基)。定石: 金属の酸化物 = 塩基性、非金属の酸化物 = 酸性。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次のうち、塩基性酸化物はどれか。",
+      "choices": [
+        "SO<sub>3</sub>",
+        "CO<sub>2</sub>",
+        "Na<sub>2</sub>O",
+        "P<sub>4</sub>O<sub>10</sub>"
+      ],
+      "answer": 2,
+      "traps": [
+        "金属・非金属の取り違え",
+        "金属・非金属の取り違え",
+        null,
+        "金属・非金属の取り違え"
+      ],
+      "explain": "Na は金属なので Na<sub>2</sub>O は塩基性酸化物(水と反応して NaOH になる)。S・C・P は非金属。"
+    },
+    {
+      "type": "mc",
+      "cat": "equation",
+      "q": "SO<sub>3</sub> + 2NaOH → 【 ア 】 + H<sub>2</sub>O のアに入る物質はどれか。",
+      "choices": [
+        "Na<sub>2</sub>SO<sub>3</sub>",
+        "Na<sub>2</sub>SO<sub>4</sub>",
+        "NaHSO<sub>4</sub>",
+        "Na<sub>2</sub>O"
+      ],
+      "answer": 1,
+      "traps": [
+        "酸化物と塩の対応の誤り",
+        null,
+        "係数の誤り",
+        "生成物の誤り"
+      ],
+      "explain": "SO<sub>3</sub> は水と反応すると H<sub>2</sub>SO<sub>4</sub> になる酸性酸化物。NaOH 2 mol と中和して Na<sub>2</sub>SO<sub>4</sub>。定石: 酸性酸化物は「水を足した酸」に直して考える。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次の2つの物質を反応させたとき、反応が起こらない組み合わせはどれか。",
+      "choices": [
+        "CH<sub>3</sub>COONa と HCl",
+        "NH<sub>4</sub>Cl と NaOH",
+        "Na<sub>2</sub>CO<sub>3</sub> と HCl",
+        "KCl と CH<sub>3</sub>COOH"
+      ],
+      "answer": 3,
+      "traps": [
+        "弱酸の遊離の見落とし",
+        "弱塩基の遊離の見落とし",
+        "弱酸の遊離の見落とし",
+        null
+      ],
+      "explain": "KCl は強酸(HCl)の塩。弱酸の CH<sub>3</sub>COOH では強酸を追い出せない。ほかは「弱い方が追い出される」反応が起こる。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "塩化ナトリウムに濃硫酸を加えて加熱すると発生する気体はどれか。",
+      "choices": [
+        "Cl<sub>2</sub>",
+        "HCl",
+        "H<sub>2</sub>",
+        "SO<sub>2</sub>"
+      ],
+      "answer": 1,
+      "traps": [
+        "揮発性の酸の遊離の誤り",
+        null,
+        "生成物の誤り",
+        "生成物の誤り"
+      ],
+      "explain": "NaCl + H<sub>2</sub>SO<sub>4</sub> → NaHSO<sub>4</sub> + HCl。不揮発性の硫酸が、揮発性の塩酸(HCl)を追い出す。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "硫化鉄(II) FeS に塩酸を加えると発生する気体はどれか。",
+      "choices": [
+        "H<sub>2</sub>",
+        "SO<sub>2</sub>",
+        "H<sub>2</sub>S",
+        "Cl<sub>2</sub>"
+      ],
+      "answer": 2,
+      "traps": [
+        "金属と酸の反応との混同",
+        "生成物の誤り",
+        null,
+        "生成物の誤り"
+      ],
+      "explain": "FeS + 2HCl → FeCl<sub>2</sub> + H<sub>2</sub>S。H<sub>2</sub>S は弱酸なので、強酸の HCl に追い出される(弱酸の遊離)。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次の塩の水溶液のうち、塩基性を示すものはどれか。",
+      "choices": [
+        "CH<sub>3</sub>COONa",
+        "NH<sub>4</sub>Cl",
+        "NaCl",
+        "NaHSO<sub>4</sub>"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "強弱の組み合わせの誤り",
+        "中性の塩との混同",
+        "電離による H<sup>+</sup> の見落とし"
+      ],
+      "explain": "弱酸+強塩基の塩 → 加水分解で OH<sup>−</sup> を生じて塩基性(CH<sub>3</sub>COO<sup>−</sup> + H<sub>2</sub>O ⇄ CH<sub>3</sub>COOH + OH<sup>−</sup>)。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次の塩の水溶液のうち、塩の加水分解によって弱い酸性を示すものはどれか。",
+      "choices": [
+        "KNO<sub>3</sub>",
+        "NaHSO<sub>4</sub>",
+        "NH<sub>4</sub>NO<sub>3</sub>",
+        "K<sub>2</sub>CO<sub>3</sub>"
+      ],
+      "answer": 2,
+      "traps": [
+        "中性の塩との混同",
+        "電離と加水分解の混同",
+        null,
+        "強弱の組み合わせの誤り"
+      ],
+      "explain": "NH<sub>4</sub>NO<sub>3</sub> は強酸+弱塩基の塩 → NH<sub>4</sub><sup>+</sup> の加水分解で弱酸性。NaHSO<sub>4</sub> も酸性だが、HSO<sub>4</sub><sup>−</sup> の電離によるもので加水分解ではない。"
+    },
+    {
+      "type": "tf",
+      "q": "塩は中和反応だけでなく、金属と酸の反応(例: Zn + 2HCl)などでも生じる。",
+      "answer": true,
+      "explain": "Zn + 2HCl → ZnCl<sub>2</sub> + H<sub>2</sub>。ほかにも 酸+塩基性酸化物、酸性酸化物+塩基、非金属+金属(Fe + S → FeS)などで塩ができる。"
+    }
+  ],
+  "points": [
+    "塩の反応は「弱い方・揮発しやすい方が追い出される」。",
+    "塩の液性は、もとの酸・塩基の「強い方」の性質になる。"
+  ]
+}
