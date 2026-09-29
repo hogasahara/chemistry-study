@@ -1,0 +1,204 @@
+{
+  "id": "2026-09-29-oxidation-number-change",
+  "number": 11,
+  "title": "酸化数の変化",
+  "unit": "酸化還元",
+  "source": {
+    "print": "prints/sankakangen-01-03.md",
+    "label": "プリント 酸化還元3"
+  },
+  "date": "2026-09-29",
+  "targetMinutes": 12,
+  "terms": [
+    [
+      "酸化数が増加",
+      "その原子(物質)は酸化された"
+    ],
+    [
+      "酸化数が減少",
+      "その原子(物質)は還元された"
+    ],
+    [
+      "酸化還元反応かどうか",
+      "酸化数が変化した原子があれば酸化還元反応。中和反応などは変化しない"
+    ],
+    [
+      "e<sup>−</sup> を放出する式",
+      "例: Zn → Zn<sup>2+</sup> + 2e<sup>−</sup>(酸化)"
+    ],
+    [
+      "e<sup>−</sup> を受け取る式",
+      "例: Cu<sup>2+</sup> + 2e<sup>−</sup> → Cu(還元)"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "2K + Br<sub>2</sub> → 2KBr の反応で、K 原子はどうなったか。",
+      "choices": [
+        "酸化された",
+        "還元された",
+        "いずれでもない",
+        "酸化も還元もされた"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "増減と酸化・還元の対応の誤り",
+        "酸化数の計算の誤り",
+        "定義の誤り"
+      ],
+      "explain": "K: 0(単体)→ +1(KBr)。酸化数が増加 → 酸化された。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "Cl<sub>2</sub> + 2KBr → 2KCl + Br<sub>2</sub> の反応で、Cl 原子はどうなったか。",
+      "choices": [
+        "酸化された",
+        "還元された",
+        "いずれでもない",
+        "酸化も還元もされた"
+      ],
+      "answer": 1,
+      "traps": [
+        "増減と酸化・還元の対応の誤り",
+        null,
+        "酸化数の計算の誤り",
+        "定義の誤り"
+      ],
+      "explain": "Cl: 0 → −1。酸化数が減少 → 還元された(Br は −1 → 0 で酸化された)。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "CuO + H<sub>2</sub>SO<sub>4</sub> → CuSO<sub>4</sub> + H<sub>2</sub>O の反応で、Cu 原子はどうなったか。",
+      "choices": [
+        "酸化された",
+        "還元された",
+        "いずれでもない",
+        "酸化も還元もされた"
+      ],
+      "answer": 2,
+      "traps": [
+        "O の数だけで判断",
+        "O の数だけで判断",
+        null,
+        "定義の誤り"
+      ],
+      "explain": "Cu: +2(CuO)→ +2(CuSO<sub>4</sub>)で変化なし → いずれでもない。この反応は酸化還元反応ではない(塩基性酸化物と酸の反応)。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "Cu<sup>2+</sup> + 2e<sup>−</sup> → Cu の変化で、銅はどうなったか。",
+      "choices": [
+        "酸化された",
+        "還元された",
+        "いずれでもない",
+        "酸化も還元もされた"
+      ],
+      "answer": 1,
+      "traps": [
+        "電子の授受の向きの誤り",
+        null,
+        "定義の誤り",
+        "定義の誤り"
+      ],
+      "explain": "電子を受け取った(酸化数 +2 → 0)→ 還元された。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次の反応のうち、酸化還元反応でないものはどれか。",
+      "choices": [
+        "Zn + 2HCl → ZnCl<sub>2</sub> + H<sub>2</sub>",
+        "2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O",
+        "NaOH + HCl → NaCl + H<sub>2</sub>O",
+        "Cu + Cl<sub>2</sub> → CuCl<sub>2</sub>"
+      ],
+      "answer": 2,
+      "traps": [
+        "単体の出入りの見落とし",
+        "単体の出入りの見落とし",
+        null,
+        "単体の出入りの見落とし"
+      ],
+      "explain": "中和反応では酸化数が変化しない。定石: 反応式に単体が出てくれば(出入りすれば)ほぼ酸化還元反応。"
+    },
+    {
+      "type": "mc",
+      "cat": "combo",
+      "q": "H<sub>2</sub>O<sub>2</sub> + 2KI + H<sub>2</sub>SO<sub>4</sub> → I<sub>2</sub> + K<sub>2</sub>SO<sub>4</sub> + 2H<sub>2</sub>O の反応で、酸化された原子と還元された原子の組み合わせとして正しいものはどれか。",
+      "choices": [
+        "酸化: I ・ 還元: O",
+        "酸化: O ・ 還元: I",
+        "酸化: K ・ 還元: O",
+        "酸化: I ・ 還元: S"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "増減と酸化・還元の対応の誤り",
+        "酸化数の計算の誤り",
+        "酸化数の計算の誤り"
+      ],
+      "explain": "I: −1(KI)→ 0(I<sub>2</sub>)で酸化された。O: −1(H<sub>2</sub>O<sub>2</sub>)→ −2(H<sub>2</sub>O)で還元された。K・S・H は変化なし。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "2Al + Fe<sub>2</sub>O<sub>3</sub> → Al<sub>2</sub>O<sub>3</sub> + 2Fe の反応で、還元された原子はどれか。",
+      "choices": [
+        "Al",
+        "O",
+        "Fe",
+        "還元された原子はない"
+      ],
+      "answer": 2,
+      "traps": [
+        "増減と酸化・還元の対応の誤り",
+        "酸化数の計算の誤り",
+        null,
+        "同時性の見落とし"
+      ],
+      "explain": "Fe: +3 → 0(減少)で還元された。Al: 0 → +3 で酸化された。O は −2 のまま。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "Cu + 4HNO<sub>3</sub> → Cu(NO<sub>3</sub>)<sub>2</sub> + 2NO<sub>2</sub> + 2H<sub>2</sub>O の反応で、NO<sub>2</sub> になった N の酸化数の変化として正しいものはどれか。",
+      "choices": [
+        "+5 → +4",
+        "+4 → +5",
+        "+5 → +2",
+        "変化しない"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "変化の向きの誤り",
+        "NO と混同",
+        "酸化数の計算の誤り"
+      ],
+      "explain": "HNO<sub>3</sub> の N: +1 + x − 6 = 0 → +5。NO<sub>2</sub> の N: x − 4 = 0 → +4。減少したので還元された。Cu(NO<sub>3</sub>)<sub>2</sub> 中の N は +5 のまま。"
+    },
+    {
+      "type": "tf",
+      "q": "酸化数が増加した原子は、還元されたという。",
+      "answer": false,
+      "explain": "酸化数が増加 → 酸化された。減少 → 還元された。"
+    },
+    {
+      "type": "tf",
+      "q": "2Na + 2H<sub>2</sub>O → 2NaOH + H<sub>2</sub> の反応では、H<sub>2</sub>O の H 原子の一部が還元されている。",
+      "answer": true,
+      "explain": "H<sub>2</sub> になった H は +1 → 0 に減少(還元された)。NaOH に残った H は +1 のまま。Na は 0 → +1 で酸化された。"
+    }
+  ],
+  "points": [
+    "酸化数 増加 = 酸化された、減少 = 還元された。",
+    "同じ元素でも、変化した原子と変化しない原子がある(HNO<sub>3</sub> の N、H<sub>2</sub>O の H など)。"
+  ]
+}
