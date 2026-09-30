@@ -208,5 +208,9 @@
   "points": [
     "[H<sup>+</sup>] = 濃度 × 価数 × 電離度 → pH = −log[H<sup>+</sup>]。塩基は [OH<sup>−</sup>] を出してから K<sub>w</sub> で [H<sup>+</sup>] に直す。",
     "うすめると pH は 7 に近づくだけ。混合は mol で足して体積で割る。"
+  ],
+  "basics": [
+    "2026-09-30-basic-log",
+    "2026-09-30-basic-mol"
   ]
 }

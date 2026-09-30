@@ -19,6 +19,10 @@
     <p class="countdown" id="countdown"></p>
   </section>
 
+  <h2>基礎チェック(1本5分・まずはここから)</h2>
+  <p class="muted small" style="margin-top:-4px">化学式・計算のしかたなど、確認ドリルの前提になる基本だけを集めたもの。確認ドリルでつまずいたら、ここに戻る。</p>
+  <ul id="basic-list" class="cards"><li class="muted">読み込み中…</li></ul>
+
   <h2>確認ドリル</h2>
   <ul id="drill-list" class="cards"><li class="muted">読み込み中…</li></ul>
 
@@ -56,11 +60,11 @@
   // 火〜木は軽め、金〜月は重め。すべて「★テスト範囲」(送られた22枚)
   var PLAN_START = "2026-09-30";
   var PLAN = {
-    "2026-09-30": { title: "テスト対策 1日目", desc: "酸・塩基の定義と電離度(ドリル1本)+ 用語カード", drills: ["2026-09-29-acid-base-basics"] },
-    "2026-10-01": { title: "テスト対策 2日目", desc: "pH の計算(ドリル1本)+ 用語カード", drills: ["2026-09-29-ph"] },
-    "2026-10-02": { title: "テスト対策 3日目", desc: "指示薬と中和・塩の種類(ドリル2本)", drills: ["2026-09-29-indicators-neutralization", "2026-09-29-salt-types"] },
-    "2026-10-03": { title: "テスト対策 4日目", desc: "塩の反応・中和滴定(ドリル3本。きつければ2本+明日へ)", drills: ["2026-09-29-salts", "2026-09-29-neutralization", "2026-09-29-titration-curves"] },
-    "2026-10-04": { title: "テスト対策 5日目", desc: "逆滴定・二段階滴定・酸化還元(ドリル3本)", drills: ["2026-09-29-back-titration", "2026-09-29-two-step-titration", "2026-09-29-redox-basics"] },
+    "2026-09-30": { title: "テスト対策 1日目", desc: "基礎① 化学式とイオン(5分)→ 酸・塩基の定義と電離度", drills: ["2026-09-30-basic-formulas", "2026-09-29-acid-base-basics"] },
+    "2026-10-01": { title: "テスト対策 2日目", desc: "基礎② mol と濃度・基礎③ 指数と対数(各5分)→ pH の計算", drills: ["2026-09-30-basic-mol", "2026-09-30-basic-log", "2026-09-29-ph"] },
+    "2026-10-02": { title: "テスト対策 3日目", desc: "基礎④ 中和と塩(5分)→ 指示薬と中和・塩の種類", drills: ["2026-09-30-basic-neutralization", "2026-09-29-indicators-neutralization", "2026-09-29-salt-types"] },
+    "2026-10-03": { title: "テスト対策 4日目", desc: "塩の反応 → 基礎⑤ 滴定の器具と指示薬(5分)→ 中和滴定(きつければ最後の1本は明日へ)", drills: ["2026-09-29-salts", "2026-09-30-basic-titration", "2026-09-29-neutralization", "2026-09-29-titration-curves"] },
+    "2026-10-04": { title: "テスト対策 5日目", desc: "逆滴定・二段階滴定 → 基礎⑥ 酸化数(5分)→ 酸化と還元", drills: ["2026-09-29-back-titration", "2026-09-29-two-step-titration", "2026-09-30-basic-oxidation-number", "2026-09-29-redox-basics"] },
     "2026-10-05": { title: "テスト前日(明日は化学!)", desc: "酸化数の変化(ドリル1本)→ 記録ページで「ミスの種類」を確認 → ミスしたドリルを解き直し → 要復習カード", drills: ["2026-09-29-oxidation-number-change"] }
   };
   var TEST_DAY_TASK = { title: "今日は化学のテスト!", desc: "朝は要復習カードを5分だけ。あとは各ドリルの「ここを押さえる」を思い出せばOK", link: "CARDS", label: "要復習カード(5分)" };
@@ -133,6 +137,9 @@
   }
   renderDone();
 
+  // 表示名: 基礎チェックはタイトルだけ、確認ドリルは「#番号 タイトル」
+  function label(d) { return d.level === "basic" ? d.title : "#" + d.number + " " + d.title; }
+
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
@@ -172,7 +179,7 @@
         ul.style.margin = "0 0 12px";
         items.forEach(function (id) {
           var li = document.createElement("li");
-          li.textContent = (doneIds[id] ? "✅ " : "⬜ ") + "#" + byId[id].number + " " + byId[id].title;
+          li.textContent = (doneIds[id] ? "✅ " : "⬜ ") + label(byId[id]);
           ul.appendChild(li);
         });
         btn.parentNode.insertBefore(ul, btn);
@@ -188,19 +195,22 @@
       }
 
       var list = document.getElementById("drill-list");
+      var basicList = document.getElementById("basic-list");
       list.innerHTML = drills.length ? "" : '<li class="muted">まだドリルがありません(先生のプリントから作成予定)</li>';
+      basicList.innerHTML = "";
       drills.forEach(function (d) {
         var li = document.createElement("li");
         li.innerHTML =
-          '<div class="card-title">#' + d.number + " " + esc(d.title) +
+          '<div class="card-title">' + esc(label(d)) +
           (d.tag ? ' <span class="tag">' + esc(d.tag) + "</span>" : "") + "</div>" +
           '<div class="card-meta">' + esc(d.unit) + " ・ " + d.questions + "問 ・ " + esc(d.source || "") + "</div>" +
           '<div class="card-actions">' +
           '<a class="btn btn-primary" href="drill.html?id=' + d.id + '">Webでやる</a>' +
           '<a class="btn" href="drills/' + d.id + '/question.html">紙版</a>' +
           "</div>";
-        list.appendChild(li);
+        (d.level === "basic" ? basicList : list).appendChild(li);
       });
+      if (!basicList.children.length) basicList.innerHTML = '<li class="muted">まだありません</li>';
     })
     .catch(function () {
       document.getElementById("drill-list").innerHTML = '<li class="muted">ドリル一覧を読み込めませんでした</li>';

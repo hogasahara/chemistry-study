@@ -1,0 +1,184 @@
+{
+  "id": "2026-09-30-basic-neutralization",
+  "number": 15,
+  "level": "basic",
+  "title": "基礎④ 中和と塩の基本",
+  "unit": "酸と塩基(基礎)",
+  "source": {
+    "print": "prints/sanenki-05-09.md",
+    "label": "基礎(中和・塩の前提)"
+  },
+  "date": "2026-09-30",
+  "targetMinutes": 5,
+  "terms": [
+    [
+      "中和",
+      "酸 + 塩基 → 塩 + 水"
+    ],
+    [
+      "強酸",
+      "HCl, HNO<sub>3</sub>, H<sub>2</sub>SO<sub>4</sub>"
+    ],
+    [
+      "弱酸",
+      "CH<sub>3</sub>COOH, H<sub>2</sub>CO<sub>3</sub>, H<sub>2</sub>S, (COOH)<sub>2</sub>, H<sub>3</sub>PO<sub>4</sub>"
+    ],
+    [
+      "強塩基",
+      "NaOH, KOH, Ca(OH)<sub>2</sub>, Ba(OH)<sub>2</sub>"
+    ],
+    [
+      "弱塩基",
+      "NH<sub>3</sub>, Cu(OH)<sub>2</sub>, Fe(OH)<sub>3</sub> など"
+    ],
+    [
+      "塩の液性",
+      "もとの酸・塩基の強い方の性質"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "硝酸と水酸化カリウムの中和でできる塩はどれか。",
+      "choices": [
+        "KNO<sub>3</sub>",
+        "KOH",
+        "HNO<sub>3</sub>",
+        "K<sub>2</sub>NO<sub>3</sub>"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "塩と塩基の混同",
+        "塩と酸の混同",
+        "化学式の誤り"
+      ],
+      "explain": "HNO<sub>3</sub> + KOH → KNO<sub>3</sub> + H<sub>2</sub>O。塩 = 酸の陰イオン(NO<sub>3</sub><sup>−</sup>)+ 塩基の陽イオン(K<sup>+</sup>)。"
+    },
+    {
+      "type": "mc",
+      "cat": "equation",
+      "q": "2HCl + Ca(OH)<sub>2</sub> → CaCl<sub>2</sub> + 【 ア 】H<sub>2</sub>O のアに入る係数はどれか。",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": 1,
+      "traps": [
+        "係数の誤り",
+        null,
+        "係数の誤り",
+        "係数の誤り"
+      ],
+      "explain": "H<sup>+</sup> 2個と OH<sup>−</sup> 2個 → H<sub>2</sub>O 2個。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次のうち、強酸はどれか。",
+      "choices": [
+        "CH<sub>3</sub>COOH",
+        "H<sub>2</sub>CO<sub>3</sub>",
+        "HNO<sub>3</sub>",
+        "H<sub>2</sub>S"
+      ],
+      "answer": 2,
+      "traps": [
+        "強弱の誤り",
+        "強弱の誤り",
+        null,
+        "強弱の誤り"
+      ],
+      "explain": "強酸は HCl・HNO<sub>3</sub>・H<sub>2</sub>SO<sub>4</sub> の3つを覚える。ほかは弱酸。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "次のうち、強塩基はどれか。",
+      "choices": [
+        "NH<sub>3</sub>",
+        "Cu(OH)<sub>2</sub>",
+        "Fe(OH)<sub>3</sub>",
+        "KOH"
+      ],
+      "answer": 3,
+      "traps": [
+        "強弱の誤り",
+        "強弱の誤り",
+        "強弱の誤り",
+        null
+      ],
+      "explain": "強塩基は NaOH・KOH・Ca(OH)<sub>2</sub>・Ba(OH)<sub>2</sub>(アルカリ金属と Ca・Ba の水酸化物)。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "硫酸 1 mol をちょうど中和するのに必要な NaOH は何 mol か。",
+      "choices": [
+        "1 mol",
+        "2 mol",
+        "0.5 mol",
+        "4 mol"
+      ],
+      "answer": 1,
+      "traps": [
+        "価数の誤り",
+        null,
+        "価数を反対側に掛けた",
+        "価数の誤り"
+      ],
+      "explain": "硫酸は2価 → H<sup>+</sup> 2 mol。NaOH は1価なので 2 mol。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "塩化アンモニウム NH<sub>4</sub>Cl は、どの酸とどの塩基の中和でできる塩か。",
+      "choices": [
+        "HCl と NH<sub>3</sub>",
+        "HCl と NaOH",
+        "H<sub>2</sub>SO<sub>4</sub> と NH<sub>3</sub>",
+        "HNO<sub>3</sub> と NH<sub>3</sub>"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "もとの塩基の誤り",
+        "もとの酸の誤り",
+        "もとの酸の誤り"
+      ],
+      "explain": "Cl<sup>−</sup> は HCl から、NH<sub>4</sub><sup>+</sup> は NH<sub>3</sub> から。HCl + NH<sub>3</sub> → NH<sub>4</sub>Cl。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "炭酸カリウム K<sub>2</sub>CO<sub>3</sub> の水溶液の液性はどれか。",
+      "choices": [
+        "酸性",
+        "中性",
+        "塩基性",
+        "判断できない"
+      ],
+      "answer": 2,
+      "traps": [
+        "強弱の組み合わせの誤り",
+        "強弱の組み合わせの誤り",
+        null,
+        "液性の判断の誤り"
+      ],
+      "explain": "弱酸(H<sub>2</sub>CO<sub>3</sub>)+ 強塩基(KOH)の塩 → 強い方の塩基性。"
+    },
+    {
+      "type": "tf",
+      "q": "中和に必要な量は、酸・塩基の強弱に関係なく、物質量と価数で決まる。",
+      "answer": true,
+      "explain": "酸の mol × 価数 = 塩基の mol × 価数。強弱(電離度)は関係しない。"
+    }
+  ],
+  "points": [
+    "強酸3つ(HCl, HNO<sub>3</sub>, H<sub>2</sub>SO<sub>4</sub>)・強塩基4つ(NaOH, KOH, Ca(OH)<sub>2</sub>, Ba(OH)<sub>2</sub>)を覚える。",
+    "塩は「酸の陰イオン + 塩基の陽イオン」。液性は強い方。"
+  ]
+}

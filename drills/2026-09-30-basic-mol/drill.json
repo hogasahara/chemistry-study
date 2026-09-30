@@ -1,0 +1,197 @@
+{
+  "id": "2026-09-30-basic-mol",
+  "number": 13,
+  "level": "basic",
+  "title": "基礎② 物質量と濃度の計算",
+  "unit": "酸と塩基(基礎)",
+  "source": {
+    "print": "prints/sanenki-10-14.md",
+    "label": "基礎(中和・滴定の計算の前提)"
+  },
+  "date": "2026-09-30",
+  "targetMinutes": 6,
+  "terms": [
+    [
+      "mL → L",
+      "÷1000(例: 20 mL = 0.020 L)"
+    ],
+    [
+      "物質量 [mol]",
+      "モル濃度 [mol/L] × 体積 [L]"
+    ],
+    [
+      "モル濃度 [mol/L]",
+      "物質量 [mol] ÷ 体積 [L]"
+    ],
+    [
+      "10<sup>a</sup> × 10<sup>b</sup>",
+      "10<sup>a+b</sup>(指数は足す)"
+    ],
+    [
+      "10<sup>a</sup> ÷ 10<sup>b</sup>",
+      "10<sup>a−b</sup>(指数は引く)"
+    ],
+    [
+      "H<sup>+</sup> の物質量",
+      "酸の物質量 × 価数"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "25 mL は何 L か。",
+      "choices": [
+        "0.25 L",
+        "0.025 L",
+        "2.5 L",
+        "0.0025 L"
+      ],
+      "answer": 1,
+      "traps": [
+        "桁ミス",
+        null,
+        "桁ミス",
+        "桁ミス"
+      ],
+      "explain": "mL → L は ÷1000。25 ÷ 1000 = 0.025 L。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "0.10 mol/L の塩酸 20 mL に含まれる HCl は何 mol か。",
+      "choices": [
+        "2.0 mol",
+        "2.0×10<sup>−2</sup> mol",
+        "2.0×10<sup>−3</sup> mol",
+        "5.0×10<sup>−3</sup> mol"
+      ],
+      "answer": 2,
+      "traps": [
+        "mL を L に直し忘れ",
+        "桁ミス",
+        null,
+        "割り算の逆"
+      ],
+      "explain": "0.10 mol/L × 0.020 L = 0.0020 = 2.0×10<sup>−3</sup> mol。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "NaOH 0.030 mol を水に溶かして 200 mL にした。モル濃度は何 mol/L か。",
+      "choices": [
+        "0.15 mol/L",
+        "6.0×10<sup>−3</sup> mol/L",
+        "1.5×10<sup>−4</sup> mol/L",
+        "6.7 mol/L"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "割らずに掛けた",
+        "mL を L に直し忘れ",
+        "割り算の逆"
+      ],
+      "explain": "0.030 mol ÷ 0.200 L = 0.15 mol/L。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "0.050 mol/L の硫酸 10 mL から生じる H<sup>+</sup> は何 mol か。",
+      "choices": [
+        "5.0×10<sup>−4</sup> mol",
+        "1.0×10<sup>−3</sup> mol",
+        "1.0 mol",
+        "0.10 mol"
+      ],
+      "answer": 1,
+      "traps": [
+        "価数の誤り",
+        null,
+        "mL を L に直し忘れ",
+        "桁ミス"
+      ],
+      "explain": "硫酸は 0.050 × 0.010 = 5.0×10<sup>−4</sup> mol。2価なので H<sup>+</sup> は ×2 で 1.0×10<sup>−3</sup> mol。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "(1.0×10<sup>−2</sup>) × (1.0×10<sup>−3</sup>) を計算するといくらか。",
+      "choices": [
+        "1.0×10<sup>−5</sup>",
+        "1.0×10<sup>−6</sup>",
+        "1.0×10<sup>1</sup>",
+        "1.0×10<sup>−1</sup>"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "指数を掛けた",
+        "指数を引いた",
+        "指数を引いた"
+      ],
+      "explain": "掛け算は指数を足す: (−2) + (−3) = −5。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "(1.0×10<sup>−14</sup>) ÷ (1.0×10<sup>−4</sup>) を計算するといくらか。",
+      "choices": [
+        "1.0×10<sup>−18</sup>",
+        "1.0×10<sup>10</sup>",
+        "1.0×10<sup>−10</sup>",
+        "1.0×10<sup>−4</sup>"
+      ],
+      "answer": 2,
+      "traps": [
+        "指数を足した",
+        "符号の誤り",
+        null,
+        "計算の誤り"
+      ],
+      "explain": "割り算は指数を引く: (−14) − (−4) = −10。[OH<sup>−</sup>] から [H<sup>+</sup>] を出すときに使う。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "0.0020 を「□×10<sup>n</sup>」の形で表したものはどれか。",
+      "choices": [
+        "2.0×10<sup>−2</sup>",
+        "2.0×10<sup>3</sup>",
+        "2.0×10<sup>−4</sup>",
+        "2.0×10<sup>−3</sup>"
+      ],
+      "answer": 3,
+      "traps": [
+        "桁ミス",
+        "符号の誤り",
+        "桁ミス",
+        null
+      ],
+      "explain": "小数点を右へ3つ動かすと 2.0 → ×10<sup>−3</sup>。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "HCl 1.2×10<sup>−3</sup> mol を中和するのに、0.10 mol/L の NaOH 水溶液は何 mL 必要か。",
+      "choices": [
+        "12 mL",
+        "1.2 mL",
+        "120 mL",
+        "0.012 mL"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "桁ミス",
+        "桁ミス",
+        "L のまま答えた"
+      ],
+      "explain": "必要な NaOH は 1.2×10<sup>−3</sup> mol。体積 = 1.2×10<sup>−3</sup> ÷ 0.10 = 0.012 L = 12 mL。"
+    }
+  ],
+  "points": [
+    "mol = mol/L × L。最初に mL を L に直す。",
+    "指数の掛け算は足す、割り算は引く。"
+  ]
+}

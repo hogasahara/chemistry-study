@@ -189,5 +189,8 @@
   "points": [
     "逆滴定は「酸の H<sup>+</sup> の合計 = 塩基の OH<sup>−</sup> の合計」を書くだけ。酸・塩基が何種類あっても、左右に全部並べる。",
     "硫酸は2価(×2)を忘れない。(NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub> 1 mol ↔ NH<sub>3</sub> 2 mol。"
+  ],
+  "basics": [
+    "2026-09-30-basic-mol"
   ]
 }

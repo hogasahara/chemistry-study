@@ -200,5 +200,8 @@
   "points": [
     "酸化数 増加 = 酸化された、減少 = 還元された。",
     "同じ元素でも、変化した原子と変化しない原子がある(HNO<sub>3</sub> の N、H<sub>2</sub>O の H など)。"
+  ],
+  "basics": [
+    "2026-09-30-basic-oxidation-number"
   ]
 }

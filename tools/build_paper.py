@@ -109,7 +109,8 @@ def table_md(rows):
 
 
 def build_question_md(d):
-    lines = [f"# 確認ドリル #{d['number']} — {d['title']}", "",
+    head = d["title"] if d.get("level") == "basic" else f"確認ドリル #{d['number']} — {d['title']}"
+    lines = [f"# {head}", "",
              f"分野: {d['unit']} ・ 出典: {d['source'].get('label', '')} ・ 目安 {d.get('targetMinutes', 10)}分", "",
              "[解答・解説](answers.md) ・ Web版はトップページから", "",
              "## 用語チェック(先に目を通す)", "", "| 用語 | 意味 |", "|---|---|"]
@@ -129,7 +130,8 @@ def build_question_md(d):
 
 
 def build_answers_md(d):
-    lines = [f"# 確認ドリル #{d['number']} 解答・解説", "", "[問題に戻る](question.md)", "",
+    head = d["title"] if d.get("level") == "basic" else f"確認ドリル #{d['number']}"
+    lines = [f"# {head} 解答・解説", "", "[問題に戻る](question.md)", "",
              "| 問 | 答え |", "|---|---|"]
     for i, q in enumerate(d["questions"]):
         ans = ("正" if q["answer"] else "誤") if q["type"] == "tf" else f"({'abcd'[q['answer']]}) {q['choices'][q['answer']]}"

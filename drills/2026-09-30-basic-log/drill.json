@@ -1,0 +1,184 @@
+{
+  "id": "2026-09-30-basic-log",
+  "number": 14,
+  "level": "basic",
+  "title": "基礎③ pH と指数・対数",
+  "unit": "酸と塩基(基礎)",
+  "source": {
+    "print": "prints/sanenki-01-04.md",
+    "label": "基礎(pH の計算の前提)"
+  },
+  "date": "2026-09-30",
+  "targetMinutes": 6,
+  "terms": [
+    [
+      "[H<sup>+</sup>] = 1.0×10<sup>−n</sup> mol/L",
+      "pH = n"
+    ],
+    [
+      "log<sub>10</sub>2",
+      "0.30"
+    ],
+    [
+      "log<sub>10</sub>5",
+      "0.70(= 1 − log<sub>10</sub>2)"
+    ],
+    [
+      "log(a×b)",
+      "log a + log b"
+    ],
+    [
+      "[H<sup>+</sup>]×[OH<sup>−</sup>]",
+      "1.0×10<sup>−14</sup>(25℃)"
+    ],
+    [
+      "pH が 1 違う",
+      "[H<sup>+</sup>] は 10 倍違う"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "[H<sup>+</sup>] = 1.0×10<sup>−3</sup> mol/L の水溶液の pH はいくらか。",
+      "choices": [
+        "3",
+        "−3",
+        "11",
+        "0.001"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "符号の誤り",
+        "[H<sup>+</sup>] と [OH<sup>−</sup>] の取り違え",
+        "pH の定義の誤り"
+      ],
+      "explain": "[H<sup>+</sup>] = 1.0×10<sup>−n</sup> なら pH = n。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "pH 5 の水溶液の [H<sup>+</sup>] は何 mol/L か。",
+      "choices": [
+        "1.0×10<sup>5</sup>",
+        "1.0×10<sup>−5</sup>",
+        "1.0×10<sup>−9</sup>",
+        "5"
+      ],
+      "answer": 1,
+      "traps": [
+        "符号の誤り",
+        null,
+        "[H<sup>+</sup>] と [OH<sup>−</sup>] の取り違え",
+        "pH の定義の誤り"
+      ],
+      "explain": "pH = n なら [H<sup>+</sup>] = 1.0×10<sup>−n</sup>。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "[H<sup>+</sup>] = 1.0×10<sup>−9</sup> mol/L の水溶液の液性はどれか(25℃)。",
+      "choices": [
+        "酸性",
+        "中性",
+        "塩基性",
+        "判断できない"
+      ],
+      "answer": 2,
+      "traps": [
+        "pH の大小の取り違え",
+        "液性の判断の誤り",
+        null,
+        "液性の判断の誤り"
+      ],
+      "explain": "pH 9 で、7 より大きい → 塩基性。[H<sup>+</sup>] が 10<sup>−7</sup> より小さい。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "[OH<sup>−</sup>] = 1.0×10<sup>−2</sup> mol/L のとき、[H<sup>+</sup>] は何 mol/L か(25℃)。",
+      "choices": [
+        "1.0×10<sup>−2</sup>",
+        "1.0×10<sup>12</sup>",
+        "1.0×10<sup>−7</sup>",
+        "1.0×10<sup>−12</sup>"
+      ],
+      "answer": 3,
+      "traps": [
+        "[H<sup>+</sup>] と [OH<sup>−</sup>] の取り違え",
+        "符号の誤り",
+        "中性と混同",
+        null
+      ],
+      "explain": "[H<sup>+</sup>] = 1.0×10<sup>−14</sup> ÷ 1.0×10<sup>−2</sup> = 1.0×10<sup>−12</sup> → pH 12。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "[H<sup>+</sup>] = 2.0×10<sup>−3</sup> mol/L の水溶液の pH はいくらか。log<sub>10</sub>2 = 0.30 とする。",
+      "choices": [
+        "2.7",
+        "3.3",
+        "2.3",
+        "3.0"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "log の足し引きの逆",
+        "log の計算の誤り",
+        "係数を無視した"
+      ],
+      "explain": "pH = −log(2.0×10<sup>−3</sup>) = −(log 2 + log 10<sup>−3</sup>) = −(0.30 − 3) = 2.7。定石: 係数が1より大きいと pH は n より小さくなる。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "[H<sup>+</sup>] = 5.0×10<sup>−4</sup> mol/L の水溶液の pH はいくらか。log<sub>10</sub>2 = 0.30 とする。",
+      "choices": [
+        "4.7",
+        "3.3",
+        "3.7",
+        "4.0"
+      ],
+      "answer": 1,
+      "traps": [
+        "log の足し引きの逆",
+        null,
+        "log 2 と log 5 の混同",
+        "係数を無視した"
+      ],
+      "explain": "log 5 = 1 − log 2 = 0.70。pH = −(0.70 − 4) = 3.3。"
+    },
+    {
+      "type": "tf",
+      "q": "pH が 2 小さくなると、[H<sup>+</sup>] は 100 倍になる。",
+      "answer": true,
+      "explain": "pH が 1 小さいと 10 倍、2 小さいと 10×10 = 100 倍。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "pH 3 の水溶液の [H<sup>+</sup>] は、pH 5 の水溶液の何倍か。",
+      "choices": [
+        "2 倍",
+        "20 倍",
+        "100 倍",
+        "1000 倍"
+      ],
+      "answer": 2,
+      "traps": [
+        "pH の差をそのまま使った",
+        "計算の誤り",
+        null,
+        "計算の誤り"
+      ],
+      "explain": "10<sup>−3</sup> ÷ 10<sup>−5</sup> = 10<sup>2</sup> = 100 倍。"
+    }
+  ],
+  "points": [
+    "pH = n ↔ [H<sup>+</sup>] = 1.0×10<sup>−n</sup>。",
+    "係数つきは log(a×10<sup>−n</sup>) = log a − n。log 2 = 0.30、log 5 = 0.70。"
+  ]
+}

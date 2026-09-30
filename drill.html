@@ -44,6 +44,11 @@
       <p class="muted small" id="result-note"></p>
       <p class="muted small">✅ この結果は自動で<a href="log.html">記録ページ</a>に保存されました</p>
     </div>
+    <div class="panel" id="basics-panel" hidden>
+      <h2 style="margin-top:0">🔰 基礎から確認しよう</h2>
+      <p class="muted small" style="margin-top:0">このドリルの前提になる基本です。1本5分。終わったらもう一度このドリルに挑戦。</p>
+      <div id="basics-links"></div>
+    </div>
     <div class="panel" id="miss-panel" hidden>
       <h2 style="margin-top:0">今回のミスの種類</h2>
       <ul class="miss-list" id="miss-list"></ul>
@@ -100,8 +105,9 @@
 
   function init(d) {
     drill = d;
-    document.title = "確認ドリル #" + d.number;
-    el("drill-title").textContent = "確認ドリル #" + d.number + " — " + d.title;
+    var kind = d.level === "basic" ? "基礎チェック" : "確認ドリル #" + d.number;
+    document.title = kind;
+    el("drill-title").textContent = d.level === "basic" ? d.title : kind + " — " + d.title;
     el("drill-meta").textContent = d.unit + " ・ 設問 " + d.questions.length + "問 ・ 目安" + (d.targetMinutes || 10) + "分" +
       (d.source && d.source.label ? " ・ 出典: " + d.source.label : "");
 
@@ -241,13 +247,31 @@
       });
     }
 
+    // 正答率8割未満なら、紐づいた基礎チェックを案内する
+    if (correct / total < 0.8 && drill.basics && drill.basics.length) {
+      fetch("drills/drills.json").then(function (r) { return r.json(); }).then(function (all) {
+        var box = el("basics-links");
+        drill.basics.forEach(function (bid) {
+          var b = all.filter(function (x) { return x.id === bid; })[0];
+          if (!b) return;
+          var a = document.createElement("a");
+          a.className = "btn btn-primary btn-big";
+          a.style.marginBottom = "8px";
+          a.href = "drill.html?id=" + b.id;
+          a.textContent = "🔰 " + b.title;
+          box.appendChild(a);
+        });
+        if (box.children.length) el("basics-panel").hidden = false;
+      }).catch(function () {});
+    }
+
     saveRecord(correct, total, misses, wrongQs);
   }
 
   function saveRecord(correct, total, misses, wrongQs) {
     if (saved) return;
     saved = true;
-    var name = "#" + drill.number + " " + drill.title;
+    var name = drill.level === "basic" ? drill.title : "#" + drill.number + " " + drill.title;
     try {
       var key = "ch_records_v1";
       var records = JSON.parse(localStorage.getItem(key) || "[]");

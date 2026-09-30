@@ -189,5 +189,8 @@
   "points": [
     "中和の量は H<sup>+</sup> と OH<sup>−</sup> の数だけで決まる。電離度・強弱は関係しない。",
     "混合溶液の濃度は「余った mol ÷ 合計の体積」。"
+  ],
+  "basics": [
+    "2026-09-30-basic-neutralization"
   ]
 }

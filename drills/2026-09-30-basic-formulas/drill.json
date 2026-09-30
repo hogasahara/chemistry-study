@@ -1,0 +1,246 @@
+{
+  "id": "2026-09-30-basic-formulas",
+  "number": 12,
+  "level": "basic",
+  "title": "基礎① 酸・塩基の化学式とイオン",
+  "unit": "酸と塩基(基礎)",
+  "source": {
+    "print": "prints/sanenki-01-04.md",
+    "label": "基礎(全プリントの前提)"
+  },
+  "date": "2026-09-30",
+  "targetMinutes": 5,
+  "terms": [
+    [
+      "HCl",
+      "塩化水素(水溶液は塩酸)。1価の強酸"
+    ],
+    [
+      "HNO<sub>3</sub>",
+      "硝酸。1価の強酸"
+    ],
+    [
+      "H<sub>2</sub>SO<sub>4</sub>",
+      "硫酸。2価の強酸"
+    ],
+    [
+      "CH<sub>3</sub>COOH",
+      "酢酸。1価の弱酸"
+    ],
+    [
+      "H<sub>3</sub>PO<sub>4</sub>",
+      "リン酸。3価の弱酸"
+    ],
+    [
+      "NaOH",
+      "水酸化ナトリウム。1価の強塩基"
+    ],
+    [
+      "Ca(OH)<sub>2</sub>",
+      "水酸化カルシウム。2価の強塩基"
+    ],
+    [
+      "NH<sub>3</sub>",
+      "アンモニア。1価の弱塩基"
+    ],
+    [
+      "SO<sub>4</sub><sup>2−</sup>",
+      "硫酸イオン"
+    ],
+    [
+      "NH<sub>4</sub><sup>+</sup>",
+      "アンモニウムイオン"
+    ],
+    [
+      "OH<sup>−</sup>",
+      "水酸化物イオン"
+    ],
+    [
+      "CO<sub>3</sub><sup>2−</sup>",
+      "炭酸イオン"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "硝酸の化学式はどれか。",
+      "choices": [
+        "HNO<sub>2</sub>",
+        "HNO<sub>3</sub>",
+        "H<sub>2</sub>NO<sub>3</sub>",
+        "NH<sub>3</sub>"
+      ],
+      "answer": 1,
+      "traps": [
+        "似た化学式と混同",
+        null,
+        "化学式の誤り",
+        "名前の似た物質と混同"
+      ],
+      "explain": "硝酸 = HNO<sub>3</sub>。NH<sub>3</sub> はアンモニア。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "CH<sub>3</sub>COOH の名前はどれか。",
+      "choices": [
+        "酢酸",
+        "炭酸",
+        "シュウ酸",
+        "硫酸"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "名前の誤り",
+        "名前の誤り",
+        "名前の誤り"
+      ],
+      "explain": "CH<sub>3</sub>COOH = 酢酸(お酢の成分)。炭酸は H<sub>2</sub>CO<sub>3</sub>、シュウ酸は (COOH)<sub>2</sub>。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "硫酸イオンのイオン式はどれか。",
+      "choices": [
+        "SO<sub>4</sub><sup>−</sup>",
+        "SO<sub>3</sub><sup>2−</sup>",
+        "SO<sub>4</sub><sup>2−</sup>",
+        "S<sup>2−</sup>"
+      ],
+      "answer": 2,
+      "traps": [
+        "電荷の誤り",
+        "化学式の誤り",
+        null,
+        "化学式の誤り"
+      ],
+      "explain": "H<sub>2</sub>SO<sub>4</sub> から H<sup>+</sup> が2個とれるので、残りは 2− の SO<sub>4</sub><sup>2−</sup>。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "NH<sub>4</sub><sup>+</sup> の名前はどれか。",
+      "choices": [
+        "アンモニア",
+        "アンモニウムイオン",
+        "硝酸イオン",
+        "水酸化物イオン"
+      ],
+      "answer": 1,
+      "traps": [
+        "分子とイオンの混同",
+        null,
+        "名前の誤り",
+        "名前の誤り"
+      ],
+      "explain": "NH<sub>3</sub>(アンモニア)が H<sup>+</sup> を受け取ると NH<sub>4</sub><sup>+</sup>(アンモニウムイオン)。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "水酸化カルシウムの化学式はどれか。",
+      "choices": [
+        "CaO",
+        "CaOH",
+        "CaCO<sub>3</sub>",
+        "Ca(OH)<sub>2</sub>"
+      ],
+      "answer": 3,
+      "traps": [
+        "酸化物と混同",
+        "電荷の数え忘れ",
+        "炭酸塩と混同",
+        null
+      ],
+      "explain": "Ca は Ca<sup>2+</sup> なので OH<sup>−</sup> が2つ必要 → Ca(OH)<sub>2</sub>。"
+    },
+    {
+      "type": "mc",
+      "cat": "fill",
+      "q": "硫酸の電離: H<sub>2</sub>SO<sub>4</sub> → 2H<sup>+</sup> + 【 ア 】 のアに入るものはどれか。",
+      "choices": [
+        "SO<sub>4</sub><sup>−</sup>",
+        "SO<sub>4</sub><sup>2−</sup>",
+        "2SO<sub>4</sub><sup>−</sup>",
+        "H<sub>2</sub>SO<sub>4</sub>"
+      ],
+      "answer": 1,
+      "traps": [
+        "電荷の誤り",
+        null,
+        "電荷の誤り",
+        "電離の理解の誤り"
+      ],
+      "explain": "左右で電荷の合計が 0 になる: (+1)×2 + (−2) = 0。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "リン酸 H<sub>3</sub>PO<sub>4</sub> の価数はいくつか。",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": 2,
+      "traps": [
+        "価数の誤り",
+        "価数の誤り",
+        null,
+        "O の数と混同"
+      ],
+      "explain": "H<sup>+</sup> になれる H が3つ → 3価。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "酢酸 CH<sub>3</sub>COOH の価数はいくつか。",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "価数の誤り",
+        "価数の誤り",
+        "H の数で価数を数えた"
+      ],
+      "explain": "H は4つあるが、H<sup>+</sup> になれるのは COOH の H だけ → 1価。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "水酸化バリウム Ba(OH)<sub>2</sub> の価数はいくつか。",
+      "choices": [
+        "1",
+        "3",
+        "2",
+        "4"
+      ],
+      "answer": 2,
+      "traps": [
+        "価数の誤り",
+        "価数の誤り",
+        null,
+        "価数の誤り"
+      ],
+      "explain": "OH<sup>−</sup> を2つ出せる → 2価の塩基。"
+    },
+    {
+      "type": "tf",
+      "q": "アンモニア NH<sub>3</sub> は OH を持たないが、水溶液中で OH<sup>−</sup> を生じるので塩基である。",
+      "answer": true,
+      "explain": "NH<sub>3</sub> + H<sub>2</sub>O ⇄ NH<sub>4</sub><sup>+</sup> + OH<sup>−</sup>。水から H<sup>+</sup> を受け取って OH<sup>−</sup> を生じる。"
+    }
+  ],
+  "points": [
+    "酸は「H<sup>+</sup> になれる H の数」、塩基は「OH<sup>−</sup> の数」が価数。酢酸は1価。",
+    "イオン式は電荷まで書く(SO<sub>4</sub><sup>2−</sup>、NH<sub>4</sub><sup>+</sup>)。"
+  ]
+}
