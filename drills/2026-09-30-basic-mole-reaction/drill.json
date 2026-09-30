@@ -1,0 +1,195 @@
+{
+  "id": "2026-09-30-basic-mole-reaction",
+  "number": 20,
+  "level": "basic",
+  "title": "基礎⑨ 化学反応式と物質量",
+  "unit": "物質量(基礎)",
+  "source": {
+    "print": "",
+    "label": "基礎(mol の土台。中和の計算の前提)"
+  },
+  "date": "2026-09-30",
+  "targetMinutes": 7,
+  "terms": [
+    [
+      "係数の比",
+      "反応する物質の物質量の比(同温・同圧の気体なら体積の比)"
+    ],
+    [
+      "2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O",
+      "H<sub>2</sub> : O<sub>2</sub> : H<sub>2</sub>O = 2 : 1 : 2(mol)"
+    ],
+    [
+      "質量保存の法則",
+      "反応の前後で物質の質量の総和は変わらない"
+    ],
+    [
+      "量的関係の解き方",
+      "g・L・個数 → mol に直す → 係数の比 → 求めたい単位に直す"
+    ]
+  ],
+  "questions": [
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O で、H<sub>2</sub> 4.0 mol と過不足なく反応する O<sub>2</sub> は何 mol か。",
+      "choices": [
+        "2.0 mol",
+        "4.0 mol",
+        "8.0 mol",
+        "1.0 mol"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "係数の比の無視",
+        "係数の比の逆",
+        "計算の誤り"
+      ],
+      "explain": "H<sub>2</sub> : O<sub>2</sub> = 2 : 1 → 4.0 × 1/2 = 2.0 mol。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "メタンの燃焼 CH<sub>4</sub> + 2O<sub>2</sub> → CO<sub>2</sub> + 2H<sub>2</sub>O で、CH<sub>4</sub> 8.0 g が完全に燃焼すると、H<sub>2</sub>O は何 g できるか。原子量は H = 1.0、C = 12、O = 16 とする。",
+      "choices": [
+        "9.0 g",
+        "18 g",
+        "36 g",
+        "8.0 g"
+      ],
+      "answer": 1,
+      "traps": [
+        "係数の比の無視",
+        null,
+        "係数の誤り",
+        "質量のまま答えた"
+      ],
+      "explain": "CH<sub>4</sub> = 16 → 8.0 ÷ 16 = 0.50 mol。H<sub>2</sub>O は ×2 で 1.0 mol → 18 g。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "CH<sub>4</sub> 0.50 mol が完全に燃焼したとき、発生する CO<sub>2</sub> は標準状態で何 L か。",
+      "choices": [
+        "11.2 L",
+        "22.4 L",
+        "0.50 L",
+        "5.6 L"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "係数の誤り",
+        "mol のまま答えた",
+        "計算の誤り"
+      ],
+      "explain": "CH<sub>4</sub> : CO<sub>2</sub> = 1 : 1 → CO<sub>2</sub> 0.50 mol → 0.50 × 22.4 = 11.2 L。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "Zn + 2HCl → ZnCl<sub>2</sub> + H<sub>2</sub> で、亜鉛 6.5 g がすべて反応すると、H<sub>2</sub> は標準状態で何 L 発生するか。Zn = 65 とする。",
+      "choices": [
+        "4.48 L",
+        "0.10 L",
+        "146 L",
+        "2.24 L"
+      ],
+      "answer": 3,
+      "traps": [
+        "HCl の係数を使った",
+        "mol のまま答えた",
+        "g に直接 22.4 を掛けた",
+        null
+      ],
+      "explain": "6.5 ÷ 65 = 0.10 mol。Zn : H<sub>2</sub> = 1 : 1 → 0.10 × 22.4 = 2.24 L。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "塩化水素 0.10 mol をちょうど中和するのに必要な NaOH は何 g か。NaOH = 40 とする。",
+      "choices": [
+        "40 g",
+        "0.40 g",
+        "4.0 g",
+        "2.5×10<sup>−3</sup> g"
+      ],
+      "answer": 2,
+      "traps": [
+        "1 mol 分で答えた",
+        "桁ミス",
+        null,
+        "割り算の逆"
+      ],
+      "explain": "HCl : NaOH = 1 : 1 → 0.10 mol × 40 = 4.0 g。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "硫酸 H<sub>2</sub>SO<sub>4</sub> 4.9 g をちょうど中和するのに必要な NaOH は何 mol か。H<sub>2</sub>SO<sub>4</sub> = 98 とする。",
+      "choices": [
+        "0.10 mol",
+        "0.050 mol",
+        "0.20 mol",
+        "4.9 mol"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "価数(係数)の誤り",
+        "計算の誤り",
+        "質量のまま答えた"
+      ],
+      "explain": "4.9 ÷ 98 = 0.050 mol。H<sub>2</sub>SO<sub>4</sub> + 2NaOH → Na<sub>2</sub>SO<sub>4</sub> + 2H<sub>2</sub>O より NaOH は ×2 で 0.10 mol。"
+    },
+    {
+      "type": "mc",
+      "cat": "calc",
+      "q": "CaCO<sub>3</sub> + 2HCl → CaCl<sub>2</sub> + H<sub>2</sub>O + CO<sub>2</sub> で、CaCO<sub>3</sub> 10 g に十分な量の塩酸を加えた。発生する CO<sub>2</sub> は何 g か。CaCO<sub>3</sub> = 100、CO<sub>2</sub> = 44 とする。",
+      "choices": [
+        "4.4 g",
+        "8.8 g",
+        "10 g",
+        "2.24 g"
+      ],
+      "answer": 0,
+      "traps": [
+        null,
+        "HCl の係数を使った",
+        "質量のまま答えた",
+        "体積と混同"
+      ],
+      "explain": "10 ÷ 100 = 0.10 mol → CO<sub>2</sub> も 0.10 mol → 0.10 × 44 = 4.4 g。"
+    },
+    {
+      "type": "mc",
+      "cat": "term",
+      "q": "N<sub>2</sub> + 3H<sub>2</sub> → 2NH<sub>3</sub> で、H<sub>2</sub> 6.0 mol がすべて反応すると NH<sub>3</sub> は何 mol できるか。",
+      "choices": [
+        "2.0 mol",
+        "6.0 mol",
+        "4.0 mol",
+        "18 mol"
+      ],
+      "answer": 2,
+      "traps": [
+        "係数の比の逆",
+        "係数の比の無視",
+        null,
+        "割らずに掛けた"
+      ],
+      "explain": "H<sub>2</sub> : NH<sub>3</sub> = 3 : 2 → 6.0 × 2/3 = 4.0 mol。"
+    },
+    {
+      "type": "tf",
+      "q": "化学反応式の係数の比は、反応する物質の質量の比を表している。",
+      "answer": false,
+      "explain": "係数の比は物質量(mol)の比。質量の比ではないので、必ず mol に直してから比を使う。"
+    }
+  ],
+  "points": [
+    "反応の計算は「mol に直す → 係数の比 → 単位を戻す」の3ステップ。",
+    "中和も同じ: 化学反応式の係数(= 価数)で mol をそろえる。"
+  ]
+}

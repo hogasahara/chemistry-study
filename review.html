@@ -76,7 +76,7 @@
       var n = sections.reduce(function (s, x) { return s + x.cards.length; }, 0);
       el("summary").textContent = "テスト範囲の用語・化学式 " + n + " 語(基礎チェック+確認ドリル " + sections.length + " 本分を、プリントの順に並べたもの)";
       var jump = el("jump");
-      [["酸と塩基(基礎)", "基礎"], ["酸と塩基", "酸・塩基"], ["酸化還元", "酸化還元"]].forEach(function (u) {
+      [["酸と塩基(基礎)", "基礎"], ["物質量(基礎)", "mol"], ["酸と塩基", "酸・塩基"], ["酸化還元", "酸化還元"]].forEach(function (u) {
         var first = sections.filter(function (s) { return s.unit === u[0]; })[0];
         if (!first) return;
         var a = document.createElement("a");
