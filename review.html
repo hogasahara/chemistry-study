@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見直し単語帳</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main>
+  <p class="site-name no-print"><a href="./">← トップへ</a></p>
+  <h1>📒 見直し単語帳</h1>
+  <p class="muted small" id="summary">読み込み中…</p>
+
+  <div class="panel no-print">
+    <div class="seg" id="mode">
+      <button class="btn on" data-mode="card">カード(タップで答え)</button>
+      <button class="btn" data-mode="list">答えも全部表示</button>
+    </div>
+    <div class="seg" id="filter">
+      <button class="btn on" data-filter="all">全部</button>
+      <button class="btn" data-filter="star">⭐ あやしいだけ(<span id="star-count">0</span>)</button>
+    </div>
+    <div class="seg" id="jump"></div>
+    <p class="muted small" style="margin:6px 0 0">覚えていないものは ☆ を押して ⭐ に。テスト直前は「⭐ あやしいだけ」で見直す。各分野の最後の青い欄は「ここを押さえる」(解き方の定石)。</p>
+  </div>
+
+  <div id="book"></div>
+  <p class="no-print" style="margin-top:20px"><button class="btn btn-big" onclick="window.print()">🖨 印刷する(答えも表示されます)</button></p>
+</main>
+
+<script src="js/report.js"></script>
+<script>
+(function () {
+  var MARK_KEY = "ch_review_marks_v1";
+  var mode = "card", filter = "all";
+  var sections = [];   // [{id, title, unit, cards:[[front, back]], points:[]}]
+
+  function el(id) { return document.getElementById(id); }
+  // 化学式の表記: <sub> <sup> <br> だけを通す(drill.html と同じ)
+  function rich(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+      .replace(/&lt;(\/?)(sub|sup)&gt;/g, "<$1$2>")
+      .replace(/&lt;br&gt;/g, "<br>");
+  }
+  function loadMarks() { try { return JSON.parse(localStorage.getItem(MARK_KEY) || "{}"); } catch (e) { return {}; } }
+  function saveMarks(m) { try { localStorage.setItem(MARK_KEY, JSON.stringify(m)); } catch (e) {} }
+
+  fetch("drills/drills.json")
+    .then(function (r) { return r.json(); })
+    .then(function (list) {
+      list.sort(function (a, b) { return (a.order || 999) - (b.order || 999) || a.number - b.number; });
+      return Promise.all(list.map(function (d) {
+        return fetch("drills/" + d.id + "/drill.json").then(function (r) { return r.json(); }).catch(function () { return null; });
+      }));
+    })
+    .then(function (ds) {
+      var seen = {};
+      ds.forEach(function (d) {
+        if (!d) return;
+        // 同じ用語は学習順で最初に出てきた分野にだけ載せる
+        var cards = (d.terms || []).filter(function (t) {
+          if (seen[t[0]]) return false;
+          seen[t[0]] = true;
+          return true;
+        });
+        sections.push({
+          id: d.id,
+          title: d.level === "basic" ? d.title : "#" + d.number + " " + d.title,
+          unit: d.unit,
+          cards: cards,
+          points: d.points || []
+        });
+      });
+      var n = sections.reduce(function (s, x) { return s + x.cards.length; }, 0);
+      el("summary").textContent = "テスト範囲の用語・化学式 " + n + " 語(基礎チェック+確認ドリル " + sections.length + " 本分を、プリントの順に並べたもの)";
+      var jump = el("jump");
+      [["酸と塩基(基礎)", "基礎"], ["酸と塩基", "酸・塩基"], ["酸化還元", "酸化還元"]].forEach(function (u) {
+        var first = sections.filter(function (s) { return s.unit === u[0]; })[0];
+        if (!first) return;
+        var a = document.createElement("a");
+        a.className = "btn";
+        a.href = "#sec-" + first.id;
+        a.textContent = "↓ " + u[1];
+        jump.appendChild(a);
+      });
+      render();
+    })
+    .catch(function () { el("summary").textContent = "読み込めませんでした。"; });
+
+  function render() {
+    var marks = loadMarks();
+    el("star-count").textContent = Object.keys(marks).length;
+    var book = el("book");
+    book.innerHTML = "";
+    sections.forEach(function (s) {
+      var cards = filter === "star" ? s.cards.filter(function (c) { return marks[c[0]]; }) : s.cards;
+      if (!cards.length && (filter === "star" || !s.points.length)) return;
+      var h = document.createElement("h2");
+      h.className = "rv-sec";
+      h.id = "sec-" + s.id;
+      h.innerHTML = rich(s.title) + ' <span class="muted">' + rich(s.unit) + "</span>";
+      book.appendChild(h);
+      var wrap = document.createElement("div");
+      wrap.className = "rv-list";
+      cards.forEach(function (c) {
+        var card = document.createElement("div");
+        card.className = "rv-card";
+        card.innerHTML =
+          '<div class="rv-body"><div class="rv-front">' + rich(c[0]) + '</div>' +
+          '<div class="rv-back' + (mode === "card" ? " hide" : "") + '"><span>' + rich(c[1]) + "</span></div></div>" +
+          '<button class="rv-star no-print' + (marks[c[0]] ? " on" : "") + '" aria-label="あやしい">' + (marks[c[0]] ? "⭐" : "☆") + "</button>";
+        card.querySelector(".rv-body").addEventListener("click", function () {
+          card.querySelector(".rv-back").classList.toggle("hide");
+        });
+        card.querySelector(".rv-star").addEventListener("click", function () {
+          var m = loadMarks();
+          if (m[c[0]]) delete m[c[0]]; else m[c[0]] = 1;
+          saveMarks(m);
+          this.classList.toggle("on", !!m[c[0]]);
+          this.textContent = m[c[0]] ? "⭐" : "☆";
+          el("star-count").textContent = Object.keys(m).length;
+        });
+        wrap.appendChild(card);
+      });
+      book.appendChild(wrap);
+      if (filter === "all" && s.points.length) {
+        var p = document.createElement("div");
+        p.className = "rv-point";
+        p.innerHTML = "💡 " + s.points.map(rich).join("<br>💡 ");
+        book.appendChild(p);
+      }
+    });
+    if (!book.children.length) {
+      book.innerHTML = '<p class="panel muted">⭐ を付けたカードはまだありません。「全部」で ☆ を押すとここに集まります。</p>';
+    }
+  }
+
+  function seg(id, key, set) {
+    el(id).addEventListener("click", function (e) {
+      var b = e.target.closest("button");
+      if (!b) return;
+      el(id).querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
+      set(b.dataset[key]);
+      render();
+    });
+  }
+  seg("mode", "mode", function (v) { mode = v; });
+  seg("filter", "filter", function (v) { filter = v; });
+})();
+</script>
+</body>
+</html>

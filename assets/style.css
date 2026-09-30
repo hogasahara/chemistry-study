@@ -181,3 +181,31 @@ sub, sup { font-size: 0.72em; line-height: 0; }
 .q .trap { font-size: 0.85rem; color: var(--ng); margin: 2px 0 0; }
 .tag { color: var(--accent); font-size: 0.82em; font-weight: 700; }
 .miss-list { margin: 6px 0 0; padding-left: 1.2em; }
+
+/* ---- 見直し単語帳(review.html) ---- */
+.seg { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.seg .btn { padding: 8px 12px; font-size: 0.9rem; }
+.seg .btn.on { background: var(--primary); color: var(--primary-text); border-color: var(--primary); }
+.rv-sec { margin: 18px 0 6px; font-size: 1rem; }
+.rv-sec .muted { font-weight: 400; font-size: 0.8rem; }
+.rv-list { display: grid; gap: 8px; }
+.rv-card {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 12px 12px 14px;
+}
+.rv-body { flex: 1; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.rv-front { font-weight: 700; }
+.rv-back { margin-top: 4px; color: var(--text); font-size: 0.95rem; }
+.rv-back.hide { color: transparent; background: var(--bg); border-radius: 6px; user-select: none; }
+.rv-back.hide::after { content: "タップで答え"; color: var(--muted); font-size: 0.8rem; }
+.rv-back.hide > span { display: none; }
+.rv-star { background: none; border: none; font-size: 1.3rem; line-height: 1; cursor: pointer; padding: 2px 4px; opacity: 0.35; }
+.rv-star.on { opacity: 1; }
+.rv-point { background: var(--primary-soft); border-radius: 10px; padding: 10px 12px; font-size: 0.9rem; margin-top: 8px; }
+@media print {
+  .no-print { display: none !important; }
+  .rv-back.hide { color: inherit; background: none; }
+  .rv-back.hide::after { content: none; }
+  .rv-back.hide > span { display: inline; }
+  .rv-card { break-inside: avoid; }
+}

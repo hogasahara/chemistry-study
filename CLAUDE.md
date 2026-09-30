@@ -47,6 +47,7 @@ tools/build_paper.py    drill.json の検証+紙版の生成
 index.html              トップ(今日のタスク・完了ボタン・連続日数・ドリル一覧)
 drill.html              確認ドリルのアプリ(?id= で drill.json を読む。タイマー・自動採点・ミス種別集計)
 cards.html              用語・化学式カード(全ドリルの terms から4択。間隔反復)
+review.html             見直し単語帳(全ドリルの terms + points を学習順に一覧。タップで答え・⭐あやしい印・印刷可。ch_review_marks_v1)
 log.html                記録ページ(自動保存+紙の分の手入力+ミス種別の集計)
 assets/style.css        共通スタイル(英語版と同じ+化学用の追加)
 js/report.js            保護者通知モジュール(CHReport。GAS_URL が空の間は何も送らない)
