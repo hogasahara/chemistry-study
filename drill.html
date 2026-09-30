@@ -79,6 +79,7 @@
   var startAt = 0, seconds = 0, timerHandle = null;
   var answers = [];
   var saved = false;
+  var reportName = "", leftReported = false;
 
   var CAT_LABELS = { term: "用語", calc: "計算", fill: "穴埋め", table: "グラフ・表", combo: "組み合わせ", equation: "反応式" };
 
@@ -124,6 +125,27 @@
     el("step-terms").hidden = false;
     el("btn-start").addEventListener("click", start);
     el("btn-grade").addEventListener("click", grade);
+
+    // 「始められない」のか「途中でやめる」のかを見分けるため、開いた時点と採点前に離れた時点も送る
+    reportName = d.level === "basic" ? d.title : "確認ドリル#" + d.number + " " + d.title;
+    if (window.CHReport) CHReport.report("開いた " + reportName);
+    window.addEventListener("pagehide", reportLeft);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") reportLeft();
+    });
+  }
+
+  // 採点前に画面を離れたら1回だけ送る(ほかのアプリに切り替えた場合も含む。戻って終えれば「終了」も届く)
+  function reportLeft() {
+    if (saved || leftReported || !window.CHReport) return;
+    leftReported = true;
+    var where;
+    if (!startAt) where = "用語の確認で(解き始める前)";
+    else {
+      var n = answers.filter(function (a) { return a !== null; }).length;
+      where = n + "/" + answers.length + "問回答 " + Math.max(1, Math.round((Date.now() - startAt) / 60000)) + "分";
+    }
+    CHReport.report("中断 " + reportName + " " + where, true);
   }
 
   function start() {
@@ -271,7 +293,7 @@
   function saveRecord(correct, total, misses, wrongQs) {
     if (saved) return;
     saved = true;
-    var name = drill.level === "basic" ? drill.title : "#" + drill.number + " " + drill.title;
+    var name = drill.level === "basic" ? drill.title : "#" + drill.number + " " + drill.title;  // 記録ページ用(reportName は通知用)
     try {
       var key = "ch_records_v1";
       var records = JSON.parse(localStorage.getItem(key) || "[]");
@@ -293,7 +315,7 @@
 
     // 学習状況の記録(採点確定時に1回だけ)
     if (window.CHReport) {
-      CHReport.reportDrillDone({ name: "確認ドリル" + name, correct: correct, total: total, minutes: seconds / 60 });
+      CHReport.reportDrillDone({ name: reportName, correct: correct, total: total, minutes: seconds / 60 });
     }
   }
 })();

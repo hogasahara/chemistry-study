@@ -14,7 +14,7 @@
  * 使い方(各ページで <script src="js/report.js"></script> を読み込む):
  *   CHReport.reportAccess()                                   トップページ: 1日1回「アクセス」
  *   CHReport.reportDrillDone({name, correct, total, minutes})  ドリル完了
- *   CHReport.report(text)                                     任意テキスト
+ *   CHReport.report(text[, leaving])                          任意テキスト(leaving: ページを離れる瞬間の送信)
  *
  * 英語版(EAReport)からの変更点: localStorageキーを ch_ に変更 / WPMを削除 /
  * 送信テキストに「化学 」接頭辞 / GAS_URL が空の間は何も送らない(キューにも積まない)
@@ -22,9 +22,9 @@
 (function (global) {
   "use strict";
 
-  // 未設定(空)の間は送信しない。英語版のGASを使い回すか新設するかは保護者に確認中(profile.md 未確認事項)
-  var GAS_URL = "";
-  var REPORT_TOKEN = "";
+  // 英語版と同じGASを使い回す(保護者決定 2026-09-30。公開JSに出ることも了解済み)。空にすると送信を止められる
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbzWmf3Tsekh-LqsBVbVK66YZcHC0UkmjGvjKr9i1aWABic_nYxhfi0fcq90F2JcBdAzyw/exec";
+  var REPORT_TOKEN = "eigokanrishinchokudoudesuka";
   // 英語版と同じGASに送る場合でも区別できるよう、送信テキストの先頭に付ける
   var PREFIX = "化学 ";
 
@@ -91,7 +91,9 @@
   }
 
   // 任意テキストを送る。オフライン or 送信例外ならキューに積む。
-  function report(text) {
+  // leaving=true: ページを離れる瞬間の送信。keepalive で届くのに fetch が失敗扱いになるため、
+  // 送信例外ではキューに積まない(積むと次のページで二重に届く)。オフラインなら積む。
+  function report(text, leaving) {
     text = String(text || "").trim();
     if (!text || !GAS_URL) return Promise.resolve(false);
     text = PREFIX + text;
@@ -101,7 +103,7 @@
       return Promise.resolve(false);
     }
     return send(text).then(function () { return true; }, function () {
-      enqueue(text, ts);
+      if (!leaving) enqueue(text, ts);
       return false;
     });
   }
