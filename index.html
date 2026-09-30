@@ -49,22 +49,44 @@
     5: { title: "確認ドリル", desc: "今週2本目。プリントを見ずに解く(15分)", link: "DRILL", label: "ドリルをはじめる" },
     6: { title: "解き直し", desc: "今週ミスしたドリルをもう一度。目標は全問正解(15分)", link: "DRILL", label: "ドリルを開く" }
   };
-  var TEST_DATE = null;          // 例: new Date(2026, 9, 22)  ※月は0始まり。化学のテスト日程は未確認
-  var TEST_NAME = "中間テスト";
+  var TEST_DATE = new Date(2026, 9, 6);   // 2026-10-06 からテスト(月は0始まり)
+  var TEST_NAME = "テスト";
+
+  // テスト前の日別プラン(この日付の間は WEEKLY より優先)。drills は学習順のドリルID。
+  // 火〜木は軽め、金〜月は重め。すべて「★テスト範囲」(送られた22枚)
+  var PLAN_START = "2026-09-30";
+  var PLAN = {
+    "2026-09-30": { title: "テスト対策 1日目", desc: "酸・塩基の定義と電離度(ドリル1本)+ 用語カード", drills: ["2026-09-29-acid-base-basics"] },
+    "2026-10-01": { title: "テスト対策 2日目", desc: "pH の計算(ドリル1本)+ 用語カード", drills: ["2026-09-29-ph"] },
+    "2026-10-02": { title: "テスト対策 3日目", desc: "指示薬と中和・塩の種類(ドリル2本)", drills: ["2026-09-29-indicators-neutralization", "2026-09-29-salt-types"] },
+    "2026-10-03": { title: "テスト対策 4日目", desc: "塩の反応・中和滴定(ドリル3本。きつければ2本+明日へ)", drills: ["2026-09-29-salts", "2026-09-29-neutralization", "2026-09-29-titration-curves"] },
+    "2026-10-04": { title: "テスト対策 5日目", desc: "逆滴定・二段階滴定・酸化還元(ドリル3本)", drills: ["2026-09-29-back-titration", "2026-09-29-two-step-titration", "2026-09-29-redox-basics"] },
+    "2026-10-05": { title: "テスト前日", desc: "酸化数の変化(ドリル1本)→ 記録ページで「ミスの種類」を確認 → ミスしたドリルを解き直し → 要復習カード", drills: ["2026-09-29-oxidation-number-change"] }
+  };
+  var TEST_PERIOD_TASK = { title: "テスト期間", desc: "化学の試験の前日は、ミスしたドリルの解き直しと要復習カード(20分)", link: "CARDS", label: "要復習カードをやる" };
 
   var now = new Date();
   var days = ["日", "月", "火", "水", "木", "金", "土"];
   document.getElementById("today-date").textContent =
     "今日のタスク — " + (now.getMonth() + 1) + "/" + now.getDate() + "(" + days[now.getDay()] + ")";
 
+  var left = null;
   if (TEST_DATE) {
-    var left = Math.ceil((TEST_DATE - now) / 86400000);
+    // 日付単位で数える(時刻に左右されない)
+    left = Math.round((TEST_DATE - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
     var cd = document.getElementById("countdown");
     if (left > 0) cd.textContent = "🔥 " + TEST_NAME + "まで あと" + left + "日";
     else if (left > -5) cd.textContent = "テスト期間中!平常心でいこう";
   }
 
   var task = WEEKLY[now.getDay()];
+  if (PLAN[dstr(now)]) {
+    task = PLAN[dstr(now)];
+    task.link = "PLAN";
+    task.label = "ドリルをはじめる";
+  } else if (left !== null && left <= 0 && left > -5) {
+    task = TEST_PERIOD_TASK;
+  }
   document.getElementById("task-title").textContent = task.title;
   document.getElementById("task-desc").textContent = task.desc;
 
@@ -125,7 +147,32 @@
     .then(function (drills) {
       // 並び順: drills.json の order(プリントの学習順)。order が無いものは番号順で後ろに
       drills.sort(function (a, b) { return (a.order || 999) - (b.order || 999) || a.number - b.number; });
-      if (task.link === "DRILL" && drills.length) {
+      if (task.link === "PLAN") {
+        // 今日のプランのドリル: プラン開始以降に Web でやったものに ✅。ボタンはまだのものの先頭へ
+        var doneIds = {};
+        loadRecords().forEach(function (r) { if (r.kind === "drill" && r.id && r.date >= PLAN_START) doneIds[r.id] = true; });
+        var byId = {};
+        drills.forEach(function (d) { byId[d.id] = d; });
+        var items = task.drills.filter(function (id) { return byId[id]; });
+        var todo = items.filter(function (id) { return !doneIds[id]; });
+        btn.hidden = false;
+        if (todo.length) {
+          btn.textContent = task.label + "(残り" + todo.length + "本)";
+          btn.href = "drill.html?id=" + todo[0];
+        } else {
+          btn.textContent = "今日のドリルは完了!要復習カードへ";
+          btn.href = "cards.html";
+        }
+        var ul = document.createElement("ul");
+        ul.className = "small";
+        ul.style.margin = "0 0 12px";
+        items.forEach(function (id) {
+          var li = document.createElement("li");
+          li.textContent = (doneIds[id] ? "✅ " : "⬜ ") + "#" + byId[id].number + " " + byId[id].title;
+          ul.appendChild(li);
+        });
+        btn.parentNode.insertBefore(ul, btn);
+      } else if (task.link === "DRILL" && drills.length) {
         // 今日のドリル: 学習順で最初の「まだWebでやっていない」ドリル。全部やったら、最後にやったのが一番古いもの
         var last = {};
         loadRecords().forEach(function (r) { if (r.kind === "drill" && r.id) last[r.id] = Math.max(last[r.id] || 0, r.ts); });
