@@ -293,7 +293,7 @@
 
     // 学習状況の記録(採点確定時に1回だけ)
     if (window.CHReport) {
-      CHReport.reportDrillDone({ name: "確認ドリル" + name, correct: correct, total: total, minutes: seconds / 60 });
+      CHReport.reportDrillDone({ name: (drill.level === "basic" ? "" : "確認ドリル") + name, correct: correct, total: total, minutes: seconds / 60 });
     }
   }
 })();
