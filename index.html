@@ -49,8 +49,8 @@
     5: { title: "確認ドリル", desc: "今週2本目。プリントを見ずに解く(15分)", link: "DRILL", label: "ドリルをはじめる" },
     6: { title: "解き直し", desc: "今週ミスしたドリルをもう一度。目標は全問正解(15分)", link: "DRILL", label: "ドリルを開く" }
   };
-  var TEST_DATE = new Date(2026, 9, 6);   // 2026-10-06 からテスト(月は0始まり)
-  var TEST_NAME = "テスト";
+  var TEST_DATE = new Date(2026, 9, 6);   // 化学の試験日 2026-10-06(テスト期間の初日。月は0始まり)
+  var TEST_NAME = "化学のテスト";
 
   // テスト前の日別プラン(この日付の間は WEEKLY より優先)。drills は学習順のドリルID。
   // 火〜木は軽め、金〜月は重め。すべて「★テスト範囲」(送られた22枚)
@@ -61,9 +61,10 @@
     "2026-10-02": { title: "テスト対策 3日目", desc: "指示薬と中和・塩の種類(ドリル2本)", drills: ["2026-09-29-indicators-neutralization", "2026-09-29-salt-types"] },
     "2026-10-03": { title: "テスト対策 4日目", desc: "塩の反応・中和滴定(ドリル3本。きつければ2本+明日へ)", drills: ["2026-09-29-salts", "2026-09-29-neutralization", "2026-09-29-titration-curves"] },
     "2026-10-04": { title: "テスト対策 5日目", desc: "逆滴定・二段階滴定・酸化還元(ドリル3本)", drills: ["2026-09-29-back-titration", "2026-09-29-two-step-titration", "2026-09-29-redox-basics"] },
-    "2026-10-05": { title: "テスト前日", desc: "酸化数の変化(ドリル1本)→ 記録ページで「ミスの種類」を確認 → ミスしたドリルを解き直し → 要復習カード", drills: ["2026-09-29-oxidation-number-change"] }
+    "2026-10-05": { title: "テスト前日(明日は化学!)", desc: "酸化数の変化(ドリル1本)→ 記録ページで「ミスの種類」を確認 → ミスしたドリルを解き直し → 要復習カード", drills: ["2026-09-29-oxidation-number-change"] }
   };
-  var TEST_PERIOD_TASK = { title: "テスト期間", desc: "化学の試験の前日は、ミスしたドリルの解き直しと要復習カード(20分)", link: "CARDS", label: "要復習カードをやる" };
+  var TEST_DAY_TASK = { title: "今日は化学のテスト!", desc: "朝は要復習カードを5分だけ。あとは各ドリルの「ここを押さえる」を思い出せばOK", link: "CARDS", label: "要復習カード(5分)" };
+  var TEST_PERIOD_TASK = { title: "化学のテスト おつかれさま!", desc: "テスト期間中は他の教科に集中。化学はお休みでOK", link: "log.html", label: "これまでの記録を見る" };
 
   var now = new Date();
   var days = ["日", "月", "火", "水", "木", "金", "土"];
@@ -76,6 +77,7 @@
     left = Math.round((TEST_DATE - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
     var cd = document.getElementById("countdown");
     if (left > 0) cd.textContent = "🔥 " + TEST_NAME + "まで あと" + left + "日";
+    else if (left === 0) cd.textContent = "🧪 今日は化学のテスト!平常心でいこう";
     else if (left > -5) cd.textContent = "テスト期間中!平常心でいこう";
   }
 
@@ -84,7 +86,9 @@
     task = PLAN[dstr(now)];
     task.link = "PLAN";
     task.label = "ドリルをはじめる";
-  } else if (left !== null && left <= 0 && left > -5) {
+  } else if (left === 0) {
+    task = TEST_DAY_TASK;
+  } else if (left !== null && left < 0 && left > -5) {
     task = TEST_PERIOD_TASK;
   }
   document.getElementById("task-title").textContent = task.title;
