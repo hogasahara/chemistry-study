@@ -54,19 +54,35 @@
     5: { title: "確認ドリル", desc: "今週2本目。プリントを見ずに解く(15分)", link: "DRILL", label: "ドリルをはじめる" },
     6: { title: "解き直し", desc: "今週ミスしたドリルをもう一度。目標は全問正解(15分)", link: "DRILL", label: "ドリルを開く" }
   };
-  var TEST_DATE = new Date(2026, 9, 6);   // 化学の試験日 2026-10-06(テスト期間の初日。月は0始まり)
+  var TEST_DATE = new Date(2026, 9, 22);  // 化学の試験日 2026-10-22(2026-10-01 に 10/6 から変更。月は0始まり)
   var TEST_NAME = "化学のテスト";
 
   // テスト前の日別プラン(この日付の間は WEEKLY より優先)。drills は学習順のドリルID。
-  // 火〜木は軽め、金〜月は重め。すべて「★テスト範囲」(送られた22枚)
+  // 1周目(10/1〜10/11)で基礎+確認ドリル全20本、2周目(10/12〜10/19)で確認ドリルを解き直し、10/20〜21 は見直し単語帳。
+  // 火〜木は軽め、金〜月は重め。since: その日以降の記録だけを ✅ にする(2周目用)。drills が空の日は link/label のページへ
   var PLAN_START = "2026-09-30";
   var PLAN = {
-    "2026-09-30": { title: "テスト対策 1日目", desc: "基礎① 化学式とイオン(5分)→ 酸・塩基の定義と電離度", drills: ["2026-09-30-basic-formulas", "2026-09-29-acid-base-basics"] },
-    "2026-10-01": { title: "テスト対策 2日目", desc: "基礎② mol と濃度・基礎③ 指数と対数(各5分)→ pH の計算", drills: ["2026-09-30-basic-mol", "2026-09-30-basic-log", "2026-09-29-ph"] },
-    "2026-10-02": { title: "テスト対策 3日目", desc: "基礎④ 中和と塩(5分)→ 指示薬と中和・塩の種類", drills: ["2026-09-30-basic-neutralization", "2026-09-29-indicators-neutralization", "2026-09-29-salt-types"] },
-    "2026-10-03": { title: "テスト対策 4日目", desc: "塩の反応 → 基礎⑤ 滴定の器具と指示薬(5分)→ 中和滴定(きつければ最後の1本は明日へ)", drills: ["2026-09-29-salts", "2026-09-30-basic-titration", "2026-09-29-neutralization", "2026-09-29-titration-curves"] },
-    "2026-10-04": { title: "テスト対策 5日目", desc: "逆滴定・二段階滴定 → 基礎⑥ 酸化数(5分)→ 酸化と還元", drills: ["2026-09-29-back-titration", "2026-09-29-two-step-titration", "2026-09-30-basic-oxidation-number", "2026-09-29-redox-basics"] },
-    "2026-10-05": { title: "テスト前日(明日は化学!)", desc: "酸化数の変化(ドリル1本)→ ミスしたドリルを解き直し → 見直し単語帳で ☆ を付けながら全体を1周", drills: ["2026-09-29-oxidation-number-change"] }
+    "2026-10-01": { title: "1周目 ①", desc: "基礎① 化学式とイオン → 酸・塩基の定義と電離度(昨日やった分は ✅ になっています)", drills: ["2026-09-30-basic-formulas", "2026-09-29-acid-base-basics"] },
+    "2026-10-02": { title: "1周目 ②", desc: "mol の土台 ⑦⑧ → 基礎② 物質量と濃度(各5〜7分)", drills: ["2026-09-30-basic-mole-mass", "2026-09-30-basic-mole-volume-conc", "2026-09-30-basic-mol"] },
+    "2026-10-03": { title: "1周目 ③", desc: "基礎③ 指数と対数 → pH → 基礎④ 中和と塩", drills: ["2026-09-30-basic-log", "2026-09-29-ph", "2026-09-30-basic-neutralization"] },
+    "2026-10-04": { title: "1周目 ④", desc: "指示薬と中和・塩の種類と液性", drills: ["2026-09-29-indicators-neutralization", "2026-09-29-salt-types"] },
+    "2026-10-05": { title: "1周目 ⑤", desc: "塩の生成と反応 → 基礎⑤ 滴定の器具と指示薬", drills: ["2026-09-29-salts", "2026-09-30-basic-titration"] },
+    "2026-10-06": { title: "1周目 ⑥", desc: "基礎⑨ 化学反応式と物質量(7分)※忙しい日は軽めでOK", drills: ["2026-09-30-basic-mole-reaction"] },
+    "2026-10-07": { title: "1周目 ⑦", desc: "中和の量的関係と滴定の操作 ※忙しい日は1本だけ", drills: ["2026-09-29-neutralization"] },
+    "2026-10-08": { title: "1周目 ⑧", desc: "中和滴定曲線と指示薬 ※忙しい日は1本だけ", drills: ["2026-09-29-titration-curves"] },
+    "2026-10-09": { title: "1周目 ⑨", desc: "逆滴定・二段階滴定", drills: ["2026-09-29-back-titration", "2026-09-29-two-step-titration"] },
+    "2026-10-10": { title: "1周目 ⑩(最後)", desc: "基礎⑥ 酸化数 → 酸化と還元 → 酸化数の変化", drills: ["2026-09-30-basic-oxidation-number", "2026-09-29-redox-basics", "2026-09-29-oxidation-number-change"] },
+    "2026-10-11": { title: "1周目のふり返り", desc: "記録ページで正答率8割未満のドリルと「ミスの種類」を確認 → そのドリルを1本解き直す", drills: [], link: "log.html", label: "記録を見る" },
+    "2026-10-12": { title: "2周目 ①", desc: "確認ドリルの解き直し。目標は全問正解+目安時間内", drills: ["2026-09-29-acid-base-basics", "2026-09-29-ph"], since: "2026-10-12" },
+    "2026-10-13": { title: "2周目 ②", desc: "見直し単語帳で「基礎」「mol」を見直し、あやしい語に ☆(10分)※忙しい日は軽めでOK", drills: [], link: "review.html", label: "見直し単語帳を開く" },
+    "2026-10-14": { title: "2周目 ③", desc: "指示薬と中和の解き直し ※忙しい日は1本だけ", drills: ["2026-09-29-indicators-neutralization"], since: "2026-10-12" },
+    "2026-10-15": { title: "2周目 ④", desc: "塩の種類と液性の解き直し ※忙しい日は1本だけ", drills: ["2026-09-29-salt-types"], since: "2026-10-12" },
+    "2026-10-16": { title: "2周目 ⑤", desc: "塩の反応・中和の量的関係の解き直し", drills: ["2026-09-29-salts", "2026-09-29-neutralization"], since: "2026-10-12" },
+    "2026-10-17": { title: "2周目 ⑥", desc: "滴定曲線・逆滴定・二段階滴定の解き直し", drills: ["2026-09-29-titration-curves", "2026-09-29-back-titration", "2026-09-29-two-step-titration"], since: "2026-10-12" },
+    "2026-10-18": { title: "2周目 ⑦", desc: "酸化還元の解き直し → 記録ページで最後の苦手チェック", drills: ["2026-09-29-redox-basics", "2026-09-29-oxidation-number-change"], since: "2026-10-12" },
+    "2026-10-19": { title: "苦手つぶし", desc: "記録ページで正答率が低かったドリルをもう一度(結果画面の「基礎から確認」も活用)", drills: [], link: "log.html", label: "記録を見る" },
+    "2026-10-20": { title: "直前 ①", desc: "見直し単語帳を全体1周。覚えていない語に ☆(15分)※忙しい日は軽めでOK", drills: [], link: "review.html", label: "見直し単語帳を開く" },
+    "2026-10-21": { title: "直前 ②(明日は化学!)", desc: "見直し単語帳の「⭐ あやしいだけ」+ 💡「ここを押さえる」を全部読む", drills: [], link: "review.html", label: "見直し単語帳を開く" }
   };
   var TEST_DAY_TASK = { title: "今日は化学のテスト!", desc: "朝は見直し単語帳の「⭐ あやしいだけ」を5分。💡 の「ここを押さえる」も目を通す", link: "review.html", label: "見直し単語帳を開く" };
   var TEST_PERIOD_TASK = { title: "化学のテスト おつかれさま!", desc: "テスト期間中は他の教科に集中。化学はお休みでOK", link: "log.html", label: "これまでの記録を見る" };
@@ -89,8 +105,10 @@
   var task = WEEKLY[now.getDay()];
   if (PLAN[dstr(now)]) {
     task = PLAN[dstr(now)];
-    task.link = "PLAN";
-    task.label = "ドリルをはじめる";
+    if (task.drills.length) {
+      task.link = "PLAN";
+      task.label = "ドリルをはじめる";
+    }
   } else if (left === 0) {
     task = TEST_DAY_TASK;
   } else if (left !== null && left < 0 && left > -5) {
@@ -162,7 +180,7 @@
       if (task.link === "PLAN") {
         // 今日のプランのドリル: プラン開始以降に Web でやったものに ✅。ボタンはまだのものの先頭へ
         var doneIds = {};
-        loadRecords().forEach(function (r) { if (r.kind === "drill" && r.id && r.date >= PLAN_START) doneIds[r.id] = true; });
+        loadRecords().forEach(function (r) { if (r.kind === "drill" && r.id && r.date >= (task.since || PLAN_START)) doneIds[r.id] = true; });
         var byId = {};
         drills.forEach(function (d) { byId[d.id] = d; });
         var items = task.drills.filter(function (id) { return byId[id]; });
